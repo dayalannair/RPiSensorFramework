@@ -104,16 +104,14 @@ public:
 //Bridge node
 class bridge: public node {
  private:
-      int sid; //id of the sensor node being bridged
-      //need to code for multiple sensors
+      int sensors[3] = [0,0,0]; //sensor nodes being bridged
+      int numSensors = 0; //max of 3 sensors
 
 public:
-      bridge(int id, int sensor){
+      bridge(int id){
             nid = id;
-            sid = sensor;
-            
       } 
-       void setSid(int s){ //connect a sensor node to the bridge node
+       void addSensor(int s){ //connect a sensor node to the bridge node
             sid = s;
       }
       string getSid(){ //view which sensor node is connected to this bridge
@@ -127,6 +125,9 @@ public:
 //Control node
 class control: public node { 
 public:
+      control(int id){ //constructor
+            nid = id;
+      }
       //commands affect all nodes or one in particular?
       void command(int cmd, int sid){
             // send out command to all bridges which in turn send out to all sensors
@@ -147,6 +148,25 @@ int sensorData[];
 //array to hold sensor data: 2D? account for multiple sensors and readings
 
 };
+
+int main(){
+      //create control node with id 123 - choose integers to reduce data transmission size
+      control centralController(123);
+
+      //create bridge
+      bridge B1(321)
+      B1.setSensor
+
+      //create sensors 
+      sensor S1(456)
+      sensor S2(456)
+
+
+
+
+
+
+}
 
 
 
