@@ -1,4 +1,4 @@
-
+#include <pigpio.h>
 
 //Sensor Node
 class Sensor : public Node
@@ -49,7 +49,24 @@ public:
       // send Sensor data (i.e. _sd in the function name indicates this) out a port.  sid = Sensor ID, e.g. temp senor 1
       // send to the Sensor with the corresponding id
 };
+//set up gpio etc.
+void setup(){
+      if (gpioInitialise() < 0)
+      {
+            // pigpio initialisation failed.
+      }
+      else
+      {
+            // pigpio initialised okay.
 
+            //set up gpio. note that pigpio uses BCM numbering
+            //all functions: http://abyz.me.uk/rpi/pigpio/cif.html#gpioInitialise
+
+
+      }
+
+
+}
  int main()
 {
     //dummy data used to set up framework
@@ -71,13 +88,12 @@ public:
         }
         else 
         {
-            pass;
+              //check for command that turns node on
+            
         };
-
-
-
-
     }
+    //terminate pigpio library  
+    gpioTerminate();
 
 
 
