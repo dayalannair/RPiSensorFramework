@@ -43,20 +43,6 @@ Sensor::send_sd(int port, int sid, byte *data, unsigned sz);
 // send to the Sensor with the corresponding id
 //set up gpio etc.
 
-void setup()
-{
-      if (gpioInitialise() < 0)
-      {
-            // pigpio initialisation failed.
-      }
-      else
-      {
-            // pigpio initialised okay.
-
-            //set up gpio. note that pigpio uses BCM numbering
-            //all functions: http://abyz.me.uk/rpi/pigpio/cif.html#gpioInitialise
-      }
-}
 int main()
 {
       //dummy data used to set up framework

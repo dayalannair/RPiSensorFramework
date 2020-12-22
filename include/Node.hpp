@@ -6,9 +6,15 @@ class Node
 protected:
     int nid;
     bool isRepo = false;
-    int outputPort;
-    int inputPort;
+    int c_outputPort;
+    int c_inputPort;
     bool isOn = false;
+    int nodeType; 
+    /*
+    1 - control
+    2 - bridge 
+    3 - sensor
+    */
 
 public:
     typedef int NodeControlHandler(int id, byte ctr, unsigned sz);
@@ -18,4 +24,5 @@ public:
     forward_data(int port, int data, unsigned sz);
     outp(int port, byte data);
     outpd(int port, byte *data, unsigned sz);
+    void Node::setupIO(int in, int out);
 };

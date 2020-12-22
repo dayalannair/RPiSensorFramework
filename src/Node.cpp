@@ -13,31 +13,33 @@ typedef int Node::NodeControlHandler(int id, byte ctr, unsigned sz)
       else
       {
             //switch statement for node to decide on what operation to perform based on a given command
-            switch (ctr)
+            switch (nodeType)
             {
-            //start sensing
+            //control node
             case 1:
-            //verify node is a sensor node with sensor connected
+            pass;
 
-            //stop sensing
+            //bridge node      
             case 2:
-
-            //change sampling rate
+            //forward to sensor node
+            send_c();
+            //sensor node
             case 3:
+            //perform command
             }
       }
 }
-Node::send_c(int bn, byte *ctr, unsigned sz)
+void Node::send_c(int bn, byte *ctr, unsigned sz)
 {
 
 } // send control out a port which is already known from node initialisation
-Node::recv_c_handler(int port, NodeControlHandler)
+void Node::recv_c_handler(int port, NodeControlHandler)
 {
       //links port to the handler?
 
 } // indicate function to handle an incoming configuration command
 
-Node::recv_sd_handler(int port, int data, DataHandler *handler);
+void Node::recv_sd_handler(int port, int data, DataHandler *handler)
 // tell system what function to call on incoming Sensor data (packets or bytes)
 if (isRepo == false) //if Node is Sensor or Bridge, forward
 {
@@ -49,7 +51,7 @@ else
 }
 //send to control/repo Node
 // send data out a port via SPI.
-Node::forward_data(int port, int data, unsigned sz);
+void Node::forward_data(int port, int data, unsigned sz)
 {
 }
 
@@ -57,3 +59,19 @@ Node::forward_data(int port, int data, unsigned sz);
 // outp(int port, byte data); // this would just be a wrapper function, would send a data item out a port,  like putc
 
 // outpd(int port, byte *data, unsigned sz); // this would just be a wrapper function, would send a data item out a port like fwrite
+void Node::setupIO(int in, int out) //set up gpio given input and output ports
+{
+      if (gpioInitialise() < 0)
+      {
+            // pigpio initialisation failed.
+      }
+      else
+      {
+            // pigpio initialised okay.
+
+            //set up gpio. note that pigpio uses BCM numbering
+            gpioSetMode(in, PI_INPUT);  // Set GPIO17 as input.
+            gpioSetMode(out, PI_OUTPUT); // Set GPIO18 as output.
+            //all functions: http://abyz.me.uk/rpi/pigpio/cif.html#gpioInitialise
+      }
+}
