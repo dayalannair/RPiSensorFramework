@@ -29,10 +29,7 @@ typedef int Node::NodeControlHandler(int id, byte ctr, unsigned sz)
             }
       }
 }
-void Node::send_c(int bn, byte *ctr, unsigned sz)
-{
 
-} // send control out a port which is already known from node initialisation
 void Node::recv_c_handler(int port, NodeControlHandler)
 {
       //links port to the handler?
