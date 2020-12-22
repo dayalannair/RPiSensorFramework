@@ -18,7 +18,7 @@ protected:
 
 public:
     typedef int NodeControlHandler(int id, byte ctr, unsigned sz);
-    send_c(int bn, byte *ctr, unsigned sz);
+    
     recv_c_handler(int port, NodeControlHandler);
     recv_sd_handler(int port, int data, DataHandler *handler);
     forward_data(int port, int data, unsigned sz);
