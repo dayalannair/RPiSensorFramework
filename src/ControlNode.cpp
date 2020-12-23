@@ -1,11 +1,14 @@
-#include <iostream>
-#include <string>
-#include "Node.cpp"
-//add these to header file
-using namespace std;
+/*
+Control Node class with main method. This node is the primary interface for the user and allows for commands to be sent to sensor nodes and for a local data repository
+Author: Dayalan Nair
+Date: December 2020
+*/
+#include "ControlNode.hpp"
+#include "Data.hpp"
 
+//constructor
 Control::control(int id, int inPort, int outPort)
-{                  //constructor
+{
     isRepo = true; //repo part of control node
     nid = id;
     outputPort = outPort;
@@ -16,7 +19,7 @@ Control::control(int id, int inPort, int outPort)
 //for now, command affects all sensor nodes belonging to a specified bridge
 void Control::command(int cmd, int bid)
 {
-    bool found = false;
+    bool found = false; // needed for displaying error if command not found
     for (int i = 0; i < 3; i++)
     {
         if (array[i] == itemToFind)
@@ -76,46 +79,58 @@ void Control::send_c(int bid, byte *ctr, unsigned sz) //bn = block number -- not
     {
         cout << "Command sent.";
     }
-
 }
-int Data::getID(){
 
-    return sensorID    
-}
-//display data from the repo connected to the control node
+//display data from the repo connected to the control node. Could be improved
 int Control::getData(int samples, int sid)
 { //samples is the number of samples requested, sid is the id of the sensor which produced the samples
-
+    //loop through entire array (not the most elegant soln). need to handle error if fewer samples in array and therefore if end of array reached before samplesFound == samples
+    int samplesFound = 0;
+    for (int i = 0, i < samplesFound, i++)
+    {
+        if (SensorData[i].getID == sid)
+        {
+            cout << SensorData[i].toString(); //display sensor data
+            samplesFound++;                   //increment no. samples found
+            if (samplesFound == samples)
+            { //exit loop if required samples have been displayed
+                break;
+            }
+        }
+    }
 }
 
 //int getBridges(){};
 
-void Control::inputHandler(int cmd)
+void Control::inputHandler(string cmd)
 {
     switch (cmd)
     {
-    case 1:
+    case "1":
         int id;
-        cout<<"Start command selected. Enter Bridge ID: ";
-        cin>> id;
+        cout << "Start command selected. Enter Bridge ID: ";
+        cin >> id;
         send_c(id, 1); //unsigned sz?
         break;
 
-    case 2:
+    case "2":
         int id;
-        cout<<"Stop command selected. Enter Bridge ID: ";
-        cin>> id;
+        cout << "Stop command selected. Enter Bridge ID: ";
+        cin >> id;
         send_c(id, 2); //unsigned sz?
         break;
+
+    case "3":
+        //sampling rate. Easier to use toggle OR use single integer commands for each sampling rate.
+        int sRate;
+        cout << "Enter desired sampling rate: ";
+        cin >> sRate;
+        send_c();
         break;
 
-    case 3:
-    //sampling rate
-        break;
-
-    case 4:
+    case "4":
         int samples;
-        int senseId; //id of sensor whose data is required
+        int senseId;                                    //id of sensor whose data is required
         cout << "Enter number of samples to display: "; // Type a number and press enter
         cin >> samples;                                 // Get user input from the keyboard
 
@@ -128,11 +143,6 @@ void Control::inputHandler(int cmd)
     default:
         cout << "Invalid input";
     }
-}
-//need a separate header file?
-string Data::toString()
-{
-    return ("Sensor ID: " + sensorID + "\ntime: " + time + "\n Value: " + dataSample);
 }
 
 int main()
@@ -152,7 +162,14 @@ int main()
         cout << "2 - stop sampling \n";
         cout << "3 - change sampling rate \n";
         cout << "4 - view data \n";
-        cin >> userInput;
+        cout << "q - quit \n" cin >> userInput;
         //pass command to the node's input handler. can add option for exiting program.
-        C1.inputHandler(userInput);
+        if (userInput == "q")
+        {
+            nodeOn = false;
+        }
+        else
+        {
+            C1.inputHandler(userInput); //handler must work with input as string
+        }
     };
