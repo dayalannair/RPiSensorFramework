@@ -5,6 +5,7 @@
 #include <string>
 #include "Node.hpp"
 using namespace std;
+#include "Data.hpp"
 
 class Control : public Node
 {
@@ -21,7 +22,7 @@ private:
     */
     int bid; //Bridge ID
     int commands[4] = {1, 2, 3, 4};
-    Data SensorData[]; // array of type Data (see class below)
+    Data SensorData[]; // array of type Data (see class below). Need DYNAMIC array
     //main user interface through this Node
     //array to hold Sensor data: 2D? account for multiple Sensors and readings
 
@@ -32,16 +33,4 @@ public:
     int getBridges();
     void inputHandler(int cmd);
     send_c(int bid, byte *ctr, unsigned sz);
-};
-
-class Data
-{
-private:
-    int sensorID;
-    int time; //may need string
-    int dataSample;
-
-public:
-    string toString();
-    int getID();
 };
