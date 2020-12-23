@@ -17,15 +17,15 @@ typedef int Node::NodeControlHandler(int id, byte ctr, unsigned sz)
             {
             //control node
             case 1:
-            pass;
+                  pass;
 
-            //bridge node      
+            //bridge node
             case 2:
-            //forward to sensor node
-            send_c();
+                  //forward to sensor node
+                  send_c();
             //sensor node
             case 3:
-            //perform command
+                  //perform command
             }
       }
 }
@@ -35,16 +35,28 @@ void Node::recv_c_handler(int port, NodeControlHandler)
       //links port to the handler?
 
 } // indicate function to handle an incoming configuration command
-
-void Node::recv_sd_handler(int port, int data, DataHandler *handler)
-// tell system what function to call on incoming Sensor data (packets or bytes)
-if (isRepo == false) //if Node is Sensor or Bridge, forward
+void Node::send_sd(byte *data, unsigned sz)
 {
-      forward_data(port, data); //port is the output port of the node
+      int i;
+      for (i = 0; i < sz; i++)
+      {
+            rs232tx(outputPort, data[i]); // use custom-implemented routine to send byte out rs232
+      }
 }
-else
+return sz;
+}
+//recv sd moved to control and bridge nodes (not needed for sensor node)
+void Node::recv_sd_handler(int port, int data, DataHandler *handler)
 {
-      //write data to repository. may not need else statement as the control Node can write data directly from port to repo
+      // tell system what function to call on incoming Sensor data (packets or bytes)
+      if (isRepo == false) //if Node is Sensor or Bridge, forward
+      {
+            send_sd(port, data); //port is the output port of the node
+      }
+      else
+      {
+            //write data to repository. may not need else statement as the control Node can write data directly from port to repo
+      }
 }
 //send to control/repo Node
 // send data out a port via SPI.
@@ -67,7 +79,7 @@ void Node::setupIO(int in, int out) //set up gpio given input and output ports
             // pigpio initialised okay.
 
             //set up gpio. note that pigpio uses BCM numbering
-            gpioSetMode(in, PI_INPUT);  // Set GPIO17 as input.
+            gpioSetMode(in, PI_INPUT);   // Set GPIO17 as input.
             gpioSetMode(out, PI_OUTPUT); // Set GPIO18 as output.
             //all functions: http://abyz.me.uk/rpi/pigpio/cif.html#gpioInitialise
       }

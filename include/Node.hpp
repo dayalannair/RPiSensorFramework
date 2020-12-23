@@ -6,8 +6,8 @@ class Node
 protected:
     int nid;
     bool isRepo = false;
-    int c_outputPort;
-    int c_inputPort;
+    int outputPort;
+    int inputPort;
     bool isOn = false;
     int nodeType; 
     /*
@@ -21,7 +21,7 @@ public:
     
     recv_c_handler(int port, NodeControlHandler);
     recv_sd_handler(int port, int data, DataHandler *handler);
-    forward_data(int port, int data, unsigned sz);
+    send_sd(int data, unsigned sz);
     outp(int port, byte data);
     outpd(int port, byte *data, unsigned sz);
     void Node::setupIO(int in, int out);
