@@ -8,6 +8,7 @@ typedef int Node::NodeControlHandler(int id, byte ctr, unsigned sz)
       if (nid != id)
       {
             //forward command if Node NOT the target Node
+            //this fn is in Control!
             send_c(outputPort, bn, ctr);
       }
       else
