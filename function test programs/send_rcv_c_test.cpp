@@ -1,5 +1,5 @@
 //test send_c and recv_c functions
-
+#include "serialib.cpp"
 #include <pigpio.h>
 typedef unsigned char BYTE;
 
