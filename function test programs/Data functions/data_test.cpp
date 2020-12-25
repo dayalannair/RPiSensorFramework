@@ -7,6 +7,7 @@
 #include <iostream>
 #include "Data.hpp"
 #include "Data.cpp"
+#include <pigpio.h>
 typedef unsigned char BYTE;
 
 //array of data objects
@@ -32,7 +33,9 @@ typedef int SensorDataHandler(int nid, int bn, BYTE *data, unsigned sz)
         int sample = formatData(rawSample); //e.g. convert data to an integer temperature value
         if (sample > threshold)
         {
-            send_sd(outputPort, nid, data, sz);
+            int outPort = spiOpen(0, speed, 0);
+            send_sd(outPort, nid, data, sz);
+            spiClose(outPort);
         }
     }
 }
@@ -41,6 +44,7 @@ int send_sd(int port, int sid, BYTE *data, unsigned sz)
 
 {
     //packet structure: Node id, size byte, 0 - 255 bytes of data
+    //port is the handle created using spiOpen from pigpio.
     switch (port)
     {
     case 0:
@@ -49,14 +53,25 @@ int send_sd(int port, int sid, BYTE *data, unsigned sz)
         case 3:*/
         {
             int bn;
+            //convert int sid to *char
+            char *ID = sid;
+            //convert sz to *char
+            char *size = sz;
             char *dt = ctime(&now);
             //-----------packet of data-------------------------------------------------
-            rs232tx(port, sid); //sid is 1 byte
-            rs232tx(port, sz);  //size of data
-            for (bn = 0; bn < sz; bn++)
-                rs232tx(port, data[bn]); // data 0 - 255 bytes
-
-            rs232tx(port, dt); //time data was sampled
+            BYTE *packet[3 + sz];
+            packet[0] = ID;
+            packet[1] = size;
+            for (int i = 2, i < sz + 2, i++)
+            {
+                packet[i] = data[i];
+            }
+            packet[sz + 2] = dt;
+            spiWrite(port, packet, sz + 3) //number of bytes is sz of data plus 3 bytes for id, sz and time
+            // spiWrite(port, ID, 1); //sid is 1 byte
+            // spiWrite(port, size, 1);  //size of data
+            // spiWrite(port, data, sz); // data 0 - 255 bytes
+            // spiWrite(port, dt, 1); //time data was sampled
             //----------------------------------------------------------------------------
         }
         return sz; // not sure why this must be here
@@ -83,13 +98,24 @@ void Node::recv_sd_handler(int port, DataHandler *handler)
 {
     switch (port)
     {
+    //---------------------sensor data received by sensor node--------------------------------
+    case 1:
+    {
+        //figure out buffer
+        //data must be of type *BYTE. spiRead returns type int
+        int data = spiRead(port, *buf, 3);//e.g. read 3 bytes
+        //loop
+        handler(id, );
+    }
+
+
     //---------------------sensor data received by bridge node--------------------------------
     case 4:
         /*case 5: //more cases for more sensor ports
         case 6:
         */
         {
-            BYTE *data = 3242352;//read from SPI sensor buffer
+            BYTE *data = 3242352;   //read from SPI sensor buffer
             int bridgeID = data[0]; //read ID from data packet. block number 0.
             int blockNum = 1;
             int sz = 3; //e.g. size of data is 3 bytes
@@ -115,10 +141,17 @@ void Node::recv_sd_handler(int port, DataHandler *handler)
         SensorData[pos] = Data(id, time, sample);
         pos++;
     }
-        
     }
 default:
     cout << "Invalid port";
 
     return 0;
+}
+int main()
+{
+    h = spiOpen(0, speed, 0);
+    send_sd(h, 123, 'a', 1);
+    recv_sd_handler(h);
+    spiClose(h);
+
 }
