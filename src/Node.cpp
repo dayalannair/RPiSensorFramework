@@ -30,21 +30,25 @@ typedef int Node::NodeControlHandler(int id, byte ctr, unsigned sz)
             }
       }
 }
-
-void Node::recv_c_handler(int port, NodeControlHandler)
+//both sensors and bridges receive commands but dont send any; only forward commands
+void Node::recv_c_handler(int port, NodeControlHandler) 
 {
-      //links port to the handler?
+      //check buffer. buffer "fills" on each transmit?
+      //use spiRead or spiXfer
+      spiXfer(spiHandle, data, rx_buffer, sz);
+      //not sure of code below
+      //https://www.codeguru.com/cpp/cpp/cpp_mfc/callbacks/article.php/c10557/Callback-Functions-Tutorial.htm
+      //need to use link above to get better understanding of callback functions
+      NodeControlHandler(port, rx_buffer, 1);//want last byte received from buffer
+
 
 } // indicate function to handle an incoming configuration command
 void Node::send_sd(byte *data, unsigned sz)
 {
-      int i;
-      for (i = 0; i < sz; i++)
-      {
-            rs232tx(outputPort, data[i]); // use custom-implemented routine to send byte out rs232
-      }
+      //tx_buffer = data; the data to be transferred could be placed in the transmit buffer
+      spiXfer(spiHandle, data, rx_buffer, sz);
 }
-return sz;
+
 }
 //recv sd moved to control and bridge nodes (not needed for sensor node)
 void Node::recv_sd_handler(int port, int data, DataHandler *handler)
@@ -60,10 +64,6 @@ void Node::recv_sd_handler(int port, int data, DataHandler *handler)
       }
 }
 //send to control/repo Node
-// send data out a port via SPI.
-void Node::forward_data(int port, int data, unsigned sz)
-{
-}
 
 // // optional if needed… the develop might just decide to use fwrite or implement the way to talk to a particular port directly in the send_sd function
 // outp(int port, byte data); // this would just be a wrapper function, would send a data item out a port,  like putc
@@ -78,6 +78,7 @@ void Node::setupIO(int in, int out) //set up gpio given input and output ports
       else
       {
             // pigpio initialised okay.
+            spiHandle = spiOpen(0, 64000, 0);//close at end of main()
 
             //set up gpio. note that pigpio uses BCM numbering
             gpioSetMode(in, PI_INPUT);   // Set GPIO17 as input.
