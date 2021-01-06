@@ -2,7 +2,7 @@
 
 // handle an incoming control command, may need to forward on
 //not sure how the following 3 functions work together. Ask in next meeting.
-typedef int Node::NodeControlHandler(int id, byte ctr, unsigned sz)
+typedef int Node::NodeControlHandler(int id, BYTE *ctr, unsigned sz)
 {
       //check if the the current node is the target node
       if (nid != id)
@@ -35,28 +35,30 @@ void Node::recv_c_handler(int port, NodeControlHandler)
 {
       //check buffer. buffer "fills" on each transmit?
       //use spiRead or spiXfer
-      spiXfer(spiHandle, data, rx_buffer, sz);
+      spiXfer(spiHandle, rx_buffer, rx_buffer, 1);//send out what is in rx_buffer and replace with newly received data
       //not sure of code below
       //https://www.codeguru.com/cpp/cpp/cpp_mfc/callbacks/article.php/c10557/Callback-Functions-Tutorial.htm
+      
+      //generates: error: expression list treated as compound expression in functional cast [-fpermissive] on compilation
+      //error: invalid cast to function type ‘Node::NodeControlHandler’ {aka ‘int(int, unsigned char*, unsigned int)’}
       //need to use link above to get better understanding of callback functions
-      NodeControlHandler(port, rx_buffer, 1);//want last byte received from buffer
+      //NodeControlHandler(port, rx_buffer, 1);//want last BYTE received from buffer
 
 
 } // indicate function to handle an incoming configuration command
-void Node::send_sd(byte *data, unsigned sz)
+void Node::send_sd(BYTE *data, unsigned int sz)
 {
       //tx_buffer = data; the data to be transferred could be placed in the transmit buffer
       spiXfer(spiHandle, data, rx_buffer, sz);
 }
 
-}
 //recv sd moved to control and bridge nodes (not needed for sensor node)
-void Node::recv_sd_handler(int port, int data, DataHandler *handler)
+void Node::recv_sd_handler(int port, SensorDataHandler *handler)
 {
-      // tell system what function to call on incoming Sensor data (packets or bytes)
+      // tell system what function to call on incoming Sensor data (packets or BYTEs)
       if (isRepo == false) //if Node is Sensor or Bridge, forward
       {
-            send_sd(port, data); //port is the output port of the node
+            send_sd(rx_buffer, 1);
       }
       else
       {
@@ -66,9 +68,9 @@ void Node::recv_sd_handler(int port, int data, DataHandler *handler)
 //send to control/repo Node
 
 // // optional if needed… the develop might just decide to use fwrite or implement the way to talk to a particular port directly in the send_sd function
-// outp(int port, byte data); // this would just be a wrapper function, would send a data item out a port,  like putc
+// outp(int port, BYTE data); // this would just be a wrapper function, would send a data item out a port,  like putc
 
-// outpd(int port, byte *data, unsigned sz); // this would just be a wrapper function, would send a data item out a port like fwrite
+// outpd(int port, BYTE *data, unsigned sz); // this would just be a wrapper function, would send a data item out a port like fwrite
 void Node::setupIO(int in, int out) //set up gpio given input and output ports
 {
       if (gpioInitialise() < 0)

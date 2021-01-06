@@ -15,3 +15,4 @@ public:
       void addSensor(int s, int in, int out);
       void displaySensorIDs();
 };
+#endif

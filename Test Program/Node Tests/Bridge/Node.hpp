@@ -4,6 +4,7 @@
 //#include <pthread.h>
 #include <iostream>
 using namespace std;
+typedef char BYTE;//spiXfer uses char* not unsigned char
 
 class Node
 {
@@ -26,11 +27,14 @@ protected:
     */
 
 public:
-    typedef int NodeControlHandler(int id, byte ctr, unsigned sz);
-    recv_c_handler(int port, NodeControlHandler);
-    recv_sd_handler(int port, int data, DataHandler *handler);
-    send_sd(int data, unsigned sz);
-    outp(int port, byte data);
-    outpd(int port, byte *data, unsigned sz);
-    void Node::setupIO(int in, int out);
+    typedef int SensorDataHandler(int nid, int bn, BYTE* data, unsigned sz); 
+    typedef int NodeControlHandler(int id, BYTE *ctr, unsigned sz);
+    void recv_c_handler(int port, NodeControlHandler);
+    void recv_sd_handler(int port, SensorDataHandler *handler);
+    void send_sd(BYTE *data, unsigned sz);
+    //void outp(int port, BYTE data);
+    //void outpd(int port, BYTE *data, unsigned sz);
+    void setupIO(int in, int out);
 };
+
+#endif
