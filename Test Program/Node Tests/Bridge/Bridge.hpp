@@ -4,15 +4,18 @@
 
 class Bridge : public Node
 {
-private:
-      int sensors[2] = [ 0, 0 ];        //Sensor Nodes being Bridged
-      int numSensors = 0;               //max of 2 Sensors
-      int inputPorts[3] = [ 0, 0, 0 ];  //2 for sensors, 1 for control
-      int outputPorts[3] = [ 0, 0, 0 ]; //2 for sensors, 1 for control
+protected:
+      int sensors[2] = { 0, 0};        //Sensor Nodes being Bridged
+      //int numSensors = 0;               //max of 2 Sensors
+      //first values in input/output ports in control port
+      //only 2 ports as Pi supports 2 SPI channels
+      //can be modified to add i2c port
+      int ports[2] = { 0, 0};  //1 for sensor, 1 for control
+      int controlID;
 
 public:
-      Bridge(int id, int cid, int outPort, int inPort);
-      void addSensor(int s, int in, int out);
+      Bridge(int id, int cid, int controlPort);
+      void addSensor(int sid, int sensorPort);
       void displaySensorIDs();
 };
 #endif
