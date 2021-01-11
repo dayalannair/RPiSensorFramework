@@ -1,43 +1,53 @@
 #include "Node.hpp"
 
 
-
+int Node::getID(){
+      return nid;
+}
 
 // handle an incoming control command, may need to forward on
 //not sure how the following 3 functions work together. Ask in next meeting.
-int Handler(int id, BYTE *ctr, unsigned int sz){
-      return 1;
-}
-      //check if the the current node is the target node
-      // if (nid != id)
-      // {
-      //       //forward command if Node NOT the target Node
-      //       //this fn is in Control!
-      //       send_c(outputPort, bn, ctr);
-      // }
-      // else
-      // {
-      //       //switch statement for node to decide on what operation to perform based on a given command
-      //       switch (nodeType)
-      //       {
-      //       //control node
-      //       case 1:
-      //             pass;
+int Handler(int id, Node node, BYTE *ctr, unsigned int sz)
+{
+      if (node.getID() != id)
+      {
+            //forward command if Node NOT the target Node
+            node.send_c(id, ctr, 1);//need 2 bytes for using control marker
+            return 1;
+      }
+      else
+      {
+            //switch statement for node to decide on what operation to perform based on a given command
+            // switch (id)//use portion of id?
+            // {
+            // //control node
+            // case 1:
+            //       //pass;
 
-      //       //bridge node
-      //       case 2:
-      //             //forward to sensor node
-      //             send_c();
-      //       //sensor node
-      //       case 3:
-      //             //perform command
-      //       }
-      // }
+            // //bridge node
+            // case 2:
+            //       //forward to sensor node
+            //       //send_c();
+            // //sensor node
+            // case 3:
+            //       //perform command
+            // }
+      }
+
+      return 2;
+}
+
+void Node::send_c(int bid, BYTE *ctr, unsigned sz) //bn = block number -- not used for control?
+{
+//need to add a bit/byte that indicates this is a control command/not data
+    spiXfer(spiHandle, ctr, rx_buffer, 1);
+}
+     
 
 
 
 //both sensors and bridges receive commands but dont send any; only forward commands
-void Node::recv_c_handler(int port, NodeControlHandler *handler) 
+void Node::recv_c_handler(int port, NodeControlHandler *handler)
 {
       ControlHandler = handler;
       //check buffer. buffer "fills" on each transmit?
@@ -45,7 +55,7 @@ void Node::recv_c_handler(int port, NodeControlHandler *handler)
       spiXfer(spiHandle, rx_buffer, rx_buffer, 1);//send out what is in rx_buffer and replace with newly received data
       //not sure of code below
       //https://www.codeguru.com/cpp/cpp/cpp_mfc/callbacks/article.php/c10557/Callback-Functions-Tutorial.htm
-      
+
       //generates: error: expression list treated as compound expression in functional cast [-fpermissive] on compilation
       //error: invalid cast to function type ‘Node::NodeControlHandler’ {aka ‘int(int, unsigned char*, unsigned int)’}
       //need to use link above to get better understanding of callback functions

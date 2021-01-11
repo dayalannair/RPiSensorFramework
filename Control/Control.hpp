@@ -8,7 +8,7 @@ class Control : public Node
 {
 protected:
   //multiple bridges. Pi can have a max of 2 using SPI
-    int bridges[3] = {0, 0, 0}; //Sensor Nodes being Bridged
+    int bridges[3] = {0, 0, 0}; //Sensor Nodes being Bridged. stores IDs.
     int numBridges = 0;           //max of 3 Sensors
     int bridgePorts[3] = {0, 0, 0}; //can combine with bridges i.e. a 2D array
     /*    
@@ -17,7 +17,6 @@ protected:
       3 = toggle sampling rate?
       4 = display data
     */
-    int bid; //Bridge ID
     BYTE commands[4] = {'1', '2', '3', '4'};
     Data SensorData[]; // array of type Data (see class below). Need DYNAMIC array
     //main user interface through this Node
@@ -29,6 +28,5 @@ public:
     void addBridge(int bid, int port);
     int getBridges();
     void inputHandler(BYTE cmd);
-    void send_c(int bid, BYTE *ctr, unsigned sz);
 };
 #endif

@@ -29,7 +29,28 @@ void Control::command(BYTE cmd, int bid)
     //if the command is valid, send to output port i.e. bridges
     if (found == true)
     {
-        send_c(bid, &cmd, 1);
+        bool found = false;
+        for (int i; i < numBridges; i++)
+        {
+        //locate/check if bridge ID is valid
+            if (bridges[i] == bid)
+            {
+                //locate port by finding position of id which will be the same position as its corresp. output port
+                // send out ctr byte on port b_outPorts[i]
+                found = true;
+                break;
+            }
+        }
+        if (found == false)
+        {
+            cout << "Bridge with given ID not found.";
+        }
+        else
+        {
+            send_c(bid, &cmd, 1);
+            cout << "Command sent.";
+        }
+        
     } //will send out on the output port specified on contruction
     else
     {
@@ -37,6 +58,7 @@ void Control::command(BYTE cmd, int bid)
         cout<<"Invalid control command";
     }
 }
+
 void Control::addBridge(int bid, int port)
 {
     if (numBridges < 3)
@@ -56,30 +78,7 @@ void Control::addBridge(int bid, int port)
         cout<<"The maximum number of bridges has been reached.";
     }
 }
-void Control::send_c(int bid, BYTE *ctr, unsigned sz) //bn = block number -- not used for control?
-{
-    bool found = false;
-    for (int i; i < numBridges; i++)
-    {
-        //locate/check if bridge ID is valid
-        if (bridges[i] == bid)
-        {
-            //locate port by finding position of id which will be the same position as its corresp. output port
-            // send out ctr byte on port b_outPorts[i]
-            found = true;
-            break;
-        }
-    }
-    if (found == false)
-    {
-        cout << "Bridge with given ID not found.";
-    }
-    else
-    {
-        spiXfer(spiHandle, ctr, rx_buffer, 1);
-        cout << "Command sent.";
-    }
-}
+
 
 //display data from the repo connected to the control node. Could be improved
 // int Control::getData(int samples, int sid)

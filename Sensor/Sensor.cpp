@@ -1,13 +1,14 @@
 //Implementation of the sensor node class and sensor reading using pigpio
 #include "Sensor.hpp"
 
-Sensor::Sensor(int id, int bridgeID, char *t, int r, int port)//port can be used to specify control port. using 0 for now
+Sensor::Sensor(int id, char *t, int r)//port can be used to specify control port. using 0 for now
 {
       isRepo = false;
       nid = id;
-      bid = bridgeID;
       type = t;
       samplingRate = r;
+      setupIO(0);
+      setupIO(1);
 
 }
 //get functions will be linked to specific commands sent by the control node

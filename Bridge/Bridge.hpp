@@ -5,7 +5,7 @@
 class Bridge : public Node
 {
 protected:
-      int sensors[2] = { 0, 0};        //Sensor Nodes being Bridged
+      int sensors[2] = { 0, 0};        //Sensor Nodes being Bridged. stores IDs.
       //int numSensors = 0;               //max of 2 Sensors
       //first values in input/output ports in control port
       //only 2 ports as Pi supports 2 SPI channels
@@ -14,8 +14,8 @@ protected:
       int controlID;
 
 public:
-      Bridge(int id, int cid, int controlPort);
-      void addSensor(int sid, int sensorPort);
+      Bridge(int id, int cid, int controlPort);// control port = 0 (main SPI)
+      void addSensor(int sid, int sensorPort);// sensor port = 1 (aux SPI)
       void displaySensorIDs();
 };
 #endif
