@@ -29,6 +29,23 @@ int Sensor::getSamplingRate()
       return samplingRate;
 };
 
+void Sensor::executeCommand(){
+      switch(activeCommand){
+            case 1:
+                  on_off = true;
+            case 2:
+                  on_off = false;
+            case 3:
+                  samplingRate = 1000;
+            case 4:
+                  samplingRate = 10000;
+            case 5:
+                  samplingRate = 10;
+            //add more commands here      
+
+      }
+
+}
 int main()
 {
       //dummy data used to set up framework
@@ -36,7 +53,7 @@ int main()
       //configure input and output ports
 
       //convert this node to a sensor node
-      Sensor thisNode(456, 789, (BYTE*)"temp",64000, 0); //789 is bridge ID
+      Sensor thisNode(456,(BYTE*)"temp",64000); //789 is bridge ID
       thisNode.set_on_off(true);
       while (thisNode.isOn())
       {

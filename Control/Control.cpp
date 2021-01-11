@@ -14,7 +14,7 @@ Control::Control(int controlID)
 //commands affect all Nodes or one in particular?
 
 //for now, command affects all sensor nodes belonging to a specified bridge
-void Control::command(BYTE cmd, int bid)
+void Control::command(BYTE cmd, int bridgeID)
 {
     bool found = false; // needed for displaying error if command not found
     for (int i = 0; i < 3; i++)
@@ -33,7 +33,7 @@ void Control::command(BYTE cmd, int bid)
         for (int i; i < numBridges; i++)
         {
         //locate/check if bridge ID is valid
-            if (bridges[i] == bid)
+            if (bridges[i] == bridgeID)
             {
                 //locate port by finding position of id which will be the same position as its corresp. output port
                 // send out ctr byte on port b_outPorts[i]
@@ -47,7 +47,12 @@ void Control::command(BYTE cmd, int bid)
         }
         else
         {
-            send_c(bid, &cmd, 1);
+            BYTE to_send[3];
+            to_send[0] = 'c';
+            to_send[1] = (BYTE)bridgeID;
+            to_send[2] = cmd;
+            //BYTE *ptr = to_send;
+            send_c(0, (BYTE*)to_send, 3);
             cout << "Command sent.";
         }
         

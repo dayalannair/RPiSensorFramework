@@ -7,8 +7,6 @@ Author: Dayalan Nair
 Date: January 2021
 */
 
-
-
 #ifndef SENSOR_H
 #define SENSOR_H
 #include "../Node/Node.cpp"
@@ -25,5 +23,6 @@ public:
     char *getType();
     void setSamplingRate(int r);
     int getSamplingRate();
+    void executeCommand();
 };
 #endif

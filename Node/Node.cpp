@@ -5,47 +5,41 @@ int Node::getID(){
       return nid;
 }
 
+void Node::setActiveCommand(BYTE c){
+      activeCommand = (int)c;
+
+}
+
 // handle an incoming control command, may need to forward on
 //not sure how the following 3 functions work together. Ask in next meeting.
-int Handler(int id, Node node, BYTE *ctr, unsigned int sz)
+int Handler(Node node, BYTE *ctr, unsigned int sz)
 {
-      if (node.getID() != id)
-      {
-            //forward command if Node NOT the target Node
-            node.send_c(id, ctr, 1);//need 2 bytes for using control marker
-            return 1;
-      }
-      else
-      {
-            //switch statement for node to decide on what operation to perform based on a given command
-            // switch (id)//use portion of id?
-            // {
-            // //control node
-            // case 1:
-            //       //pass;
+      BYTE type = ctr[0];//indicates that a command is to follow. declare outside fn?
+      BYTE command;
+      BYTE nodeID;
+      if (type == 'c'){
+            nodeID = ctr[1];
 
-            // //bridge node
-            // case 2:
-            //       //forward to sensor node
-            //       //send_c();
-            // //sensor node
-            // case 3:
-            //       //perform command
-            // }
+            if (nodeID == node.getID()){
+                  //set the active command which will be executed by sensor
+                  node.setActiveCommand(ctr[2]);
+                  return 1;
+            }
+            else{
+                  //forward command
+                  node.send_c(0,ctr,sz);
+                  return 2;
+            }
       }
-
-      return 2;
+      return 0;
 }
 
-void Node::send_c(int bid, BYTE *ctr, unsigned sz) //bn = block number -- not used for control?
+void Node::send_c(int id, BYTE *ctr, unsigned sz) //bn = block number -- not used for control?
 {
 //need to add a bit/byte that indicates this is a control command/not data
-    spiXfer(spiHandle, ctr, rx_buffer, 1);
+    spiXfer(spiHandle, ctr, rx_buffer, 3);
 }
      
-
-
-
 //both sensors and bridges receive commands but dont send any; only forward commands
 void Node::recv_c_handler(int port, NodeControlHandler *handler)
 {
@@ -53,13 +47,8 @@ void Node::recv_c_handler(int port, NodeControlHandler *handler)
       //check buffer. buffer "fills" on each transmit?
       //use spiRead or spiXfer
       spiXfer(spiHandle, rx_buffer, rx_buffer, 1);//send out what is in rx_buffer and replace with newly received data
-      //not sure of code below
       //https://www.codeguru.com/cpp/cpp/cpp_mfc/callbacks/article.php/c10557/Callback-Functions-Tutorial.htm
 
-      //generates: error: expression list treated as compound expression in functional cast [-fpermissive] on compilation
-      //error: invalid cast to function type ‘Node::NodeControlHandler’ {aka ‘int(int, unsigned char*, unsigned int)’}
-      //need to use link above to get better understanding of callback functions
-      //NodeControlHandler(port, rx_buffer, 1);//want last BYTE received from buffer
 
 
 } // indicate function to handle an incoming configuration command
@@ -92,12 +81,7 @@ void Node::recv_sd_handler(int port, SensorDataHandler *handler)
             //write data to repository. may not need else statement as the control Node can write data directly from port to repo
       }
 }
-//send to control/repo Node
 
-// // optional if needed… the develop might just decide to use fwrite or implement the way to talk to a particular port directly in the send_sd function
-// outp(int port, BYTE data); // this would just be a wrapper function, would send a data item out a port,  like putc
-
-// outpd(int port, BYTE *data, unsigned sz); // this would just be a wrapper function, would send a data item out a port like fwrite
 void Node::setupIO(int port) //set up gpio given input and output ports
 {
       if (gpioInitialise() < 0)
@@ -107,11 +91,16 @@ void Node::setupIO(int port) //set up gpio given input and output ports
       else
       {
             // pigpio initialised okay.
-            spiHandle = spiOpen(port, 64000, 0);//close at end of main()
-
-            //set up gpio. note that pigpio uses BCM numbering
-            //gpioSetMode(in, PI_INPUT);   // Set GPIO17 as input.
-            //gpioSetMode(out, PI_OUTPUT); // Set GPIO18 as output.
+            if (port == 0){
+                  spiHandle = spiOpen(port, 64000, 0);//close at end of main()
+            }
+            
+            else if (port == 1){
+                  spiHandle = spiOpen(port, 64000, 0);//close at end of main()
+            }
+            else{
+                  cout << "Raspberry Pi requires either port 0 (main SPI) or port 1 (auxiliary SPI)";
+            }
             //all functions: http://abyz.me.uk/rpi/pigpio/cif.html#gpioInitialise
       }
 }

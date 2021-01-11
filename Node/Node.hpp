@@ -23,6 +23,7 @@ protected:
     NodeControlHandler *ControlHandler;
     SensorDataHandler *DataHandler;
     int nodeType; 
+    int activeCommand;
     /*
     1 - control
     2 - bridge 
@@ -32,14 +33,13 @@ protected:
 public:
     void recv_c_handler(int port, NodeControlHandler *handler); //use int in place of handler
     void recv_sd_handler(int port, SensorDataHandler *handler);
-    void send_c(int bid, BYTE *ctr, unsigned sz);
+    void send_c(int id, BYTE *ctr, unsigned sz);
     void send_sd(BYTE *data, unsigned sz);
     bool isOn();
     void set_on_off(bool status);
-    //void outp(int port, BYTE data);
-    //void outpd(int port, BYTE *data, unsigned sz);
     void setupIO(int port);
     int getID();
+    void setActiveCommand(BYTE c);
 };
 
 #endif
