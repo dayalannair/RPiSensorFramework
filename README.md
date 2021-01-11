@@ -9,6 +9,8 @@ Output/input ports must be in BCM form.
 
 This project uses pigpio
 
+Example program (main.cpp) uses only SPI for communication, and is therefore limited to 2 connections per node as the RPi has 2 only SPI ports.
+
 ## test function programs
 
 These are for testing the communication functions. Once complete, these will be added to the Node class. These require devices for sending/receiving data via SPI e.g. rs232. The selection of the device is left up to the developer.
