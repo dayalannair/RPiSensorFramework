@@ -34,7 +34,7 @@ int Handler(Node node, BYTE *ctr, unsigned int sz)
       return 0;
 }
 
-void Node::send_c(int id, BYTE *ctr, unsigned sz) //bn = block number -- not used for control?
+void Node::send_c(int port, BYTE *ctr, unsigned sz) //bn = block number -- not used for control?
 {
 //need to add a bit/byte that indicates this is a control command/not data
     spiXfer(spiHandle, ctr, rx_buffer, 3);
@@ -43,13 +43,9 @@ void Node::send_c(int id, BYTE *ctr, unsigned sz) //bn = block number -- not use
 //both sensors and bridges receive commands but dont send any; only forward commands
 void Node::recv_c_handler(int port, NodeControlHandler *handler)
 {
-      ControlHandler = handler;
-      //check buffer. buffer "fills" on each transmit?
-      //use spiRead or spiXfer
-      spiXfer(spiHandle, rx_buffer, rx_buffer, 1);//send out what is in rx_buffer and replace with newly received data
-      //https://www.codeguru.com/cpp/cpp/cpp_mfc/callbacks/article.php/c10557/Callback-Functions-Tutorial.htm
-
-
+      if (port>=0 && port<=15){
+            ControlHandlers[port] = handler; //SPI port either 0 or 1
+      } 
 
 } // indicate function to handle an incoming configuration command
 void Node::send_sd(BYTE *data, unsigned int sz)

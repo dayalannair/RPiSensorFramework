@@ -20,7 +20,7 @@ protected:
     int spiHandleAux;
     char tx_buffer[8];
     char rx_buffer[8]; 
-    NodeControlHandler *ControlHandler;
+    NodeControlHandler * ControlHandlers[256]; // assuming only 16 ports IDs 0..15
     SensorDataHandler *DataHandler;
     int nodeType; 
     int activeCommand;
@@ -33,7 +33,7 @@ protected:
 public:
     void recv_c_handler(int port, NodeControlHandler *handler); //use int in place of handler
     void recv_sd_handler(int port, SensorDataHandler *handler);
-    void send_c(int id, BYTE *ctr, unsigned sz);
+    void send_c(int port, BYTE *ctr, unsigned sz);
     void send_sd(BYTE *data, unsigned sz);
     bool isOn();
     void set_on_off(bool status);

@@ -24,7 +24,7 @@ protected:
 
 public:
     Control(int controlID);
-    void command(BYTE cmd, int sid);
+    void command(BYTE cmd, int bridgeID, int sensorID);
     void addBridge(int bid, int port);
     int getBridges();
     void inputHandler(BYTE cmd);

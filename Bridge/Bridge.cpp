@@ -17,7 +17,7 @@ void Bridge::addSensor(int sid, int sensorPort)
       //one sensor for RPi SPI
       sensors[0] = sid;
 
-//code below for multiple sensors
+//--------------------------code below for multiple sensors-------------------------------
       // if (numSensors < 3)
       // {
       //       //add sensor ID and ports to memory (array)
@@ -32,17 +32,19 @@ void Bridge::addSensor(int sid, int sensorPort)
       // {
       //       cout<<"The maximum number of sensors for this bridge has been reached.";
       // }
+//-----------------------------------------------------------------------------------------
 }
 void Bridge::displaySensorIDs()
 { //view which Sensor Node is connected to this Bridge
       cout<<sensors[0];
       
-      //multiple sensors
+      //--------------------multiple sensors----------------------------------------------
       // cout << "Sensor IDs connected to bridge " + nid;
       // for (int i = 0; i < numSensors; i++)
       // {
       //       cout << sensors[i] + "\n";
       // }
+      //---------------------------------------------------------------------------------
 }
 
 
