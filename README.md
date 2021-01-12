@@ -15,7 +15,7 @@ These are for testing the communication functions. Once complete, these will be 
 
 These methods allow for the user to add/modify a function for converting ADC data into an integer output to be sent out from the sensor node. As an example, a temperature conversion formula will be used, which will convert the adc output of a temperature sensor into a sample in degrees Celsius.
 
-##Example program
+## Example program
 
 The example program will load all three node types as objects on a single Raspberry Pi. Therefore, one needs to comment out the #include "Node.cpp" from the various subclasses to avoid including the Node class three times in a single program. When deployed, each node will require only its specific class and the Node class.
 
