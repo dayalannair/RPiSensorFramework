@@ -151,33 +151,33 @@ void Control::inputHandler(BYTE cmd)
     }
 }
 
-int main()
-{
-    Control C1(123);
-    char userInput;
+// int main()
+// {
+//     Control C1(123);
+//     char userInput;
 
-    //turn on sensors with bridge ID 456
-    C1.command('1', 456, 546);
+//     //turn on sensors with bridge ID 456
+//     C1.command('1', 456, 546);
 
-    //thread for receiving data?
-    bool nodeOn = true;
-    while (nodeOn)
-    {
-        cout << "Enter a command \n";
-        cout << "1 - start sampling \n";
-        cout << "2 - stop sampling \n";
-        cout << "3 - change sampling rate \n";
-        cout << "4 - view data \n";
-        cout << "q - quit \n"; 
-        cin >> userInput;
-        //pass command to the node's input handler. can add option for exiting program.
-        if (userInput == 'q')
-        {
-            nodeOn = false;
-        }
-        else
-        {
-            C1.inputHandler(userInput); //handler must work with input as string
-        }
-    }
-}
+//     //thread for receiving data?
+//     bool nodeOn = true;
+//     while (nodeOn)
+//     {
+//         cout << "Enter a command \n";
+//         cout << "1 - start sampling \n";
+//         cout << "2 - stop sampling \n";
+//         cout << "3 - change sampling rate \n";
+//         cout << "4 - view data \n";
+//         cout << "q - quit \n"; 
+//         cin >> userInput;
+//         //pass command to the node's input handler. can add option for exiting program.
+//         if (userInput == 'q')
+//         {
+//             nodeOn = false;
+//         }
+//         else
+//         {
+//             C1.inputHandler(userInput); //handler must work with input as string
+//         }
+//     }
+// }

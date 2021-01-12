@@ -48,29 +48,29 @@ void Bridge::displaySensorIDs()
 }
 
 
-int main()
-{
-      //creates node and sets control input and output ports
-      //max id is 256
-      Bridge thisNode(189,345, 0);
+// int main()
+// {
+//       //creates node and sets control input and output ports
+//       //max id is 256
+//       Bridge thisNode(189,345, 0);
 
-      //add sensors and setup IO
-      thisNode.addSensor(234,1);
-      //thisNode.addSensor(214,15,18);
-      //need to change meaning of on - turned on or sensing on
-      thisNode.set_on_off(true);
-      while (thisNode.isOn())
-      {
-            //check for received commands
-            if (thisNode.isOn() == true)
-            {
-                  //receive data from sensor/s
-                  //forward as packets incl. time, sensor ID and data
-                  //use SPI
-            }
-            else
-            {
+//       //add sensors and setup IO
+//       thisNode.addSensor(234,1);
+//       //thisNode.addSensor(214,15,18);
+//       //need to change meaning of on - turned on or sensing on
+//       thisNode.set_on_off(true);
+//       while (thisNode.isOn())
+//       {
+//             //check for received commands
+//             if (thisNode.isOn() == true)
+//             {
+//                   //receive data from sensor/s
+//                   //forward as packets incl. time, sensor ID and data
+//                   //use SPI
+//             }
+//             else
+//             {
                   
-            };
-      }
-}
+//             };
+//       }
+// }
