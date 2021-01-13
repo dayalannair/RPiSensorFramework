@@ -12,39 +12,30 @@ Bridge::Bridge(int id, int cid, int controlPort)
 }
 void Bridge::addSensor(int sid, int sensorPort)
 { //connect a Sensor Node to the Bridge Node
-      ports[1] = sensorPort;
-      setupIO(sensorPort);
-      //one sensor for RPi SPI
-      sensors[0] = sid;
-
-//--------------------------code below for multiple sensors-------------------------------
-      // if (numSensors < 3)
-      // {
-      //       //add sensor ID and ports to memory (array)
-      //       sensors[numSensors] = s;
-      //       inputPorts[numSensors] = inPort;
-      //       outputSensors[numSensors] = outPort;
-      //       //set up IO for sensor node
-      //       setupIO(outPort, inPort);
-      //       numSensors++;
-      // }
-      // else
-      // {
-      //       cout<<"The maximum number of sensors for this bridge has been reached.";
-      // }
-//-----------------------------------------------------------------------------------------
+if (numSensors < 3)
+    {
+        //add sensor ID and ports to memory (array)
+        sensors[numSensors] = sid;
+        ports[numSensors] = sensorPort;
+        //set up IO for sensor node
+        //port must = 0 OR 1 for RPi and a max of 2 bridges.
+        if (sensorPort < 2 && sensorPort>=0){
+            setupIO(sensorPort);
+            cout<<"Sensor with ID: "<<sid<<"added on port: "<<sensorPort<<endl;
+        }
+        numSensors++;
+    }
+    else
+    {
+        cout<<"The maximum number of sensors has been reached."<<endl;
+    }
 }
 void Bridge::displaySensorIDs()
 { //view which Sensor Node is connected to this Bridge
-      cout<<sensors[0];
-      
-      //--------------------multiple sensors----------------------------------------------
-      // cout << "Sensor IDs connected to bridge " + nid;
-      // for (int i = 0; i < numSensors; i++)
-      // {
-      //       cout << sensors[i] + "\n";
-      // }
-      //---------------------------------------------------------------------------------
+      cout<<"----------------------Display Sensor IDs----------------------------"<<endl;
+      for (int i = 0; i < numSensors; i++){
+            cout<<"Sensor "<<i+1<<" ID: "<<sensors[0]<<endl;
+      }
 }
 
 

@@ -10,6 +10,7 @@ Control::Control(int controlID)
 {
     isRepo = true; //repo part of control node
     nid = controlID;
+    //setupIO(0);
 }
 //commands affect all Nodes or one in particular?
 
@@ -44,7 +45,7 @@ void Control::command(BYTE cmd, int bridgeID, int sensorID)
         }
         if (found == false)
         {
-            cout << "Bridge with given ID not found.";
+            cout << "Bridge with given ID not found."<<endl;
         }
         else
         {
@@ -56,14 +57,14 @@ void Control::command(BYTE cmd, int bridgeID, int sensorID)
             //---------------------------------------------------
             //BYTE *ptr = to_send;
             send_c(bridgePorts[i], (BYTE*)to_send, 3);//i will be 0 in example
-            cout << "Command sent.";
+            cout << "Command sent."<<endl;
         }
         
     } //will send out on the output port specified on contruction
     else
     {
 
-        cout<<"Invalid control command";
+        cout<<"Invalid control command"<<endl;
     }
 }
 
@@ -77,13 +78,14 @@ void Control::addBridge(int bid, int port)
         //set up IO for sensor node
         //port must = 0 OR 1 for RPi and a max of 2 bridges.
         if (port < 2 && port>=0){
-        setupIO(port);
+            setupIO(port);
+            cout<<"Bridge with ID: "<<bid<<" added on port: "<<port<<endl;
         }
         numBridges++;
     }
     else
     {
-        cout<<"The maximum number of bridges has been reached.";
+        cout<<"The maximum number of bridges has been reached."<<endl;
     }
 }
 
@@ -107,7 +109,12 @@ void Control::addBridge(int bid, int port)
 //     }
 // }
 
-//int getBridges(){};
+void Control::displayBridges(){
+    cout<<"----------------------Display Bridge IDs----------------------------"<<endl;
+    for (int i = 0; i < numBridges; i++){
+        cout<<"Bridge "<<i+1<<" ID: "<<bridges[0]<<endl;
+    }
+}
 
 void Control::inputHandler(BYTE cmd)
 {
@@ -115,15 +122,17 @@ void Control::inputHandler(BYTE cmd)
     switch (cmd)
     {
     case '1':
-        cout << "Start command selected. Enter Bridge ID: ";
+        cout << "Start command selected. Enter Sensor ID: ";
         cin >> id;
-        send_c(bridges[0], &cmd, 1);//send to first bridge for now
+        //send_c(bridges[0], &cmd, 1);//send to first bridge for now
+        command(cmd, bridges[0], id);
         break;
 
     case '2':
-        cout << "Stop command selected. Enter Bridge ID: ";
+        cout << "Stop command selected. Enter Sensor ID: ";
         cin >> id;
-        send_c(bridges[0], &cmd, 1);//send to first bridge for now
+        //send_c(bridges[0], &cmd, 1);//send to first bridge for now
+        command(cmd, bridges[0], id);
         break;
 
     case '3':
@@ -131,7 +140,7 @@ void Control::inputHandler(BYTE cmd)
         int sRate;
         cout << "Enter desired sampling rate: ";
         cin >> sRate;
-        send_c(bridges[0], &cmd, 1);//send sRate also? or toggle
+        //send_c(bridges[0], &cmd, 1);//send sRate also? or toggle
         break;
 
     case '4':

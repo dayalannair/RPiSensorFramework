@@ -40,6 +40,7 @@ public:
     void setupIO(int port);
     int getID();
     void setActiveCommand(BYTE c);
+    void closeGPIO();
 };
 
 #endif

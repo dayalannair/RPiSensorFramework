@@ -80,13 +80,16 @@ void Node::recv_sd_handler(int port, SensorDataHandler *handler)
 
 void Node::setupIO(int port) //set up gpio given input and output ports
 {
+      gpioInitialise();
       if (gpioInitialise() < 0)
       {
             // pigpio initialisation failed.
+            cout<<"Pigpio initialisation failed."<<endl;
       }
       else
       {
             // pigpio initialised okay.
+            cout<<"Pigpio initialised."<<endl;
             if (port == 0){
                   spiHandle = spiOpen(port, 64000, 0);//close at end of main()
             }
@@ -99,4 +102,8 @@ void Node::setupIO(int port) //set up gpio given input and output ports
             }
             //all functions: http://abyz.me.uk/rpi/pigpio/cif.html#gpioInitialise
       }
+}
+
+void Node::closeGPIO(){
+      gpioTerminate();
 }
