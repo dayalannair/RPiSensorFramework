@@ -20,3 +20,5 @@ These methods allow for the user to add/modify a function for converting ADC dat
 The example program will load all three node types as objects on a single Raspberry Pi. Therefore, one needs to comment out the #include "Node.cpp" from the various subclasses to avoid including the Node class three times in a single program. When deployed, each node will require only its specific class and the Node class.
 
 Example program (main.cpp) uses only SPI for communication, and is therefore limited to 2 connections per node as the RPi has 2 only SPI ports.
+
+run the program using sudo ./Main. Sudo required to initialise pigpio daemon.
