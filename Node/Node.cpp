@@ -10,29 +10,6 @@ void Node::setActiveCommand(BYTE c){
 
 }
 
-// handle an incoming control command, may need to forward on
-//not sure how the following 3 functions work together. Ask in next meeting.
-int Handler(Node node, BYTE *ctr, unsigned int sz)
-{
-      BYTE type = ctr[0];//indicates that a command is to follow. declare outside fn?
-      BYTE command;
-      BYTE nodeID;
-      if (type == 'c'){
-            nodeID = ctr[1];
-
-            if (nodeID == node.getID()){
-                  //set the active command which will be executed by sensor
-                  node.setActiveCommand(ctr[2]);
-                  return 1;
-            }
-            else{
-                  //forward command
-                  node.send_c(0,ctr,sz);
-                  return 2;
-            }
-      }
-      return 0;
-}
 
 void Node::send_c(int port, BYTE *ctr, unsigned sz) //bn = block number -- not used for control?
 {
@@ -64,6 +41,11 @@ void Node::set_on_off(bool status){
       //or from incoming control cmd
 }
 
+char *Node::getRxBuffer(){
+      char* rx = rx_buffer;
+      return rx;
+
+}
 //recv sd moved to control and bridge nodes (not needed for sensor node)
 void Node::recv_sd_handler(int port, SensorDataHandler *handler)
 {
@@ -80,7 +62,6 @@ void Node::recv_sd_handler(int port, SensorDataHandler *handler)
 
 void Node::setupIO(int port) //set up gpio given input and output ports
 {
-      gpioInitialise();
       if (gpioInitialise() < 0)
       {
             // pigpio initialisation failed.
@@ -89,13 +70,13 @@ void Node::setupIO(int port) //set up gpio given input and output ports
       else
       {
             // pigpio initialised okay.
-            cout<<"Pigpio initialised."<<endl;
+            //cout<<"Pigpio initialised."<<endl;
             if (port == 0){
                   spiHandle = spiOpen(port, 64000, 0);//close at end of main()
             }
             
             else if (port == 1){
-                  spiHandle = spiOpen(port, 64000, 0);//close at end of main()
+                  spiHandleAux = spiOpen(port, 64000, 0);//close at end of main()
             }
             else{
                   cout << "Raspberry Pi requires either port 0 (main SPI) or port 1 (auxiliary SPI)";

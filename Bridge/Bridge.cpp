@@ -21,7 +21,7 @@ if (numSensors < 3)
         //port must = 0 OR 1 for RPi and a max of 2 bridges.
         if (sensorPort < 2 && sensorPort>=0){
             setupIO(sensorPort);
-            cout<<"Sensor with ID: "<<sid<<"added on port: "<<sensorPort<<endl;
+            cout<<"Sensor with ID: "<<sid<<" added on port: "<<sensorPort<<endl;
         }
         numSensors++;
     }

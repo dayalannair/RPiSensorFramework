@@ -52,10 +52,13 @@ void Control::command(BYTE cmd, int bridgeID, int sensorID)
             BYTE to_send[3];
             //-----------------control packet--------------------
             to_send[0] = 'c';
-            to_send[1] = (BYTE)sensorID;
+            to_send[1] = sensorID + '0';
+            //cout<<"sensor id: "<<sensorID<<endl;
             to_send[2] = cmd;
             //---------------------------------------------------
             //BYTE *ptr = to_send;
+
+            cout<< "To send: "<<(BYTE*)to_send<<endl;
             send_c(bridgePorts[i], (BYTE*)to_send, 3);//i will be 0 in example
             cout << "Command sent."<<endl;
         }

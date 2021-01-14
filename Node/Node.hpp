@@ -41,6 +41,7 @@ public:
     int getID();
     void setActiveCommand(BYTE c);
     void closeGPIO();
+    char *getRxBuffer();
 };
 
 #endif
