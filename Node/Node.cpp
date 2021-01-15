@@ -10,6 +10,10 @@ void Node::setActiveCommand(int c){
 
 }
 
+void Node::recv_c(){
+      ControlHandlers[0](0,rx_buffer,3);
+}
+
 
 void Node::send_c(int port, BYTE *ctr, unsigned sz) //bn = block number -- not used for control?
 {
@@ -23,20 +27,20 @@ void Node::recv_c_handler(int port, NodeControlHandler *handler)
       if (port>=0 && port<=15){
             ControlHandlers[port] = handler; //SPI port either 0 or 1
       } 
-      switch(handler){
-            case 1:
-                  setActiveCommand(1);
-            case 2:
-                  setActiveCommand(2);
-            case 3:
-                  setActiveCommand(3);
-            case 4:
-                  setActiveCommand(4);
-            case 5:
-                  setActiveCommand(5);
-            case 6:
-                  send_c(0,ctr,4);
-      }
+      // switch(handler){
+      //       case 1:
+      //             setActiveCommand(1);
+      //       case 2:
+      //             setActiveCommand(2);
+      //       case 3:
+      //             setActiveCommand(3);
+      //       case 4:
+      //             setActiveCommand(4);
+      //       case 5:
+      //             setActiveCommand(5);
+      //       case 6:
+      //             send_c(0,ctr,4);
+      // }
 
 } // indicate function to handle an incoming configuration command
 void Node::send_sd(BYTE *data, unsigned int sz)
@@ -55,9 +59,17 @@ void Node::set_on_off(bool status){
       //or from incoming control cmd
 }
 
-char *Node::getRxBuffer(){
-      char* rx = rx_buffer;
-      return rx;
+char* Node::getRxBuffer(){
+      // char* rx = rx_buffer;
+      // return rx;
+
+      cout<<"Received: "<<endl;
+      for (int i=0; i<3; i++) {
+            
+            cout <<rx_buffer[i];
+        }
+      cout<<endl;
+      return rx_buffer;
 
 }
 //recv sd moved to control and bridge nodes (not needed for sensor node)

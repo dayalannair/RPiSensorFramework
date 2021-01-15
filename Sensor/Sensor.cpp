@@ -53,7 +53,7 @@ void Sensor::on(){
       //no need for rx thread. can periodically check. 
       int cmd_thread;
       pthread_t threads[1];
-      cmd_thread = pthread_create(&threads[1], NULL, executeCommand , (void *)1);
+      //cmd_thread = pthread_create(&threads[1], NULL, executeCommand , (void *)1);
 
       while(on_off == true){
            
