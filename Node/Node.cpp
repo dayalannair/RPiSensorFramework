@@ -5,8 +5,8 @@ int Node::getID(){
       return nid;
 }
 
-void Node::setActiveCommand(BYTE c){
-      activeCommand = (int)c;
+void Node::setActiveCommand(int c){
+      activeCommand = c;
 
 }
 
@@ -23,6 +23,20 @@ void Node::recv_c_handler(int port, NodeControlHandler *handler)
       if (port>=0 && port<=15){
             ControlHandlers[port] = handler; //SPI port either 0 or 1
       } 
+      switch(handler){
+            case 1:
+                  setActiveCommand(1);
+            case 2:
+                  setActiveCommand(2);
+            case 3:
+                  setActiveCommand(3);
+            case 4:
+                  setActiveCommand(4);
+            case 5:
+                  setActiveCommand(5);
+            case 6:
+                  send_c(0,ctr,4);
+      }
 
 } // indicate function to handle an incoming configuration command
 void Node::send_sd(BYTE *data, unsigned int sz)
@@ -88,3 +102,4 @@ void Node::setupIO(int port) //set up gpio given input and output ports
 void Node::closeGPIO(){
       gpioTerminate();
 }
+

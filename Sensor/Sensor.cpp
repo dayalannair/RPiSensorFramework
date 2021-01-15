@@ -29,6 +29,7 @@ int Sensor::getSamplingRate()
       return samplingRate;
 };
 
+//run this inside a thread
 void Sensor::executeCommand(){
       switch(activeCommand){
             case 1:
@@ -41,11 +42,27 @@ void Sensor::executeCommand(){
                   samplingRate = 10000;
             case 5:
                   samplingRate = 10;
-            //add more commands here      
+            //add more commands here 
+            default:
+                  activeCommand = 0; //reset active command     
 
       }
 
 }
+void Sensor::on(){
+      //no need for rx thread. can periodically check. 
+      int cmd_thread;
+      pthread_t threads[1];
+      cmd_thread = pthread_create(&threads[1], NULL, executeCommand , (void *)1);
+
+      while(on_off == true){
+           
+      }
+
+
+
+}
+
 // int main()
 // {
 //       //dummy data used to set up framework

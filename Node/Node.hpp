@@ -1,7 +1,7 @@
 #ifndef NODE_H
 #define NODE_H
 #include <pigpio.h>
-//#include <pthread.h>
+#include <pthread.h>
 #include <iostream>
 using namespace std;
 typedef char BYTE;//spiXfer uses char* not unsigned char
@@ -39,7 +39,7 @@ public:
     void set_on_off(bool status);
     void setupIO(int port);
     int getID();
-    void setActiveCommand(BYTE c);
+    void setActiveCommand(int c);
     void closeGPIO();
     char *getRxBuffer();
 };

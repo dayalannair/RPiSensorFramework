@@ -24,5 +24,6 @@ public:
     void setSamplingRate(int r);
     int getSamplingRate();
     void executeCommand();
+    void on();
 };
 #endif
