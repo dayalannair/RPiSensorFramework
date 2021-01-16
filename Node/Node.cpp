@@ -10,8 +10,8 @@ void Node::setActiveCommand(int c){
 
 }
 
-void Node::recv_c(){
-      ControlHandlers[0](0,rx_buffer,3);
+void Node::recv_c(int nid){
+      ControlHandlers[0](nid,rx_buffer,3);
 }
 
 

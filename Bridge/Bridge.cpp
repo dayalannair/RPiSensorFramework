@@ -30,12 +30,13 @@ if (numSensors < 3)
         cout<<"The maximum number of sensors has been reached."<<endl;
     }
 }
-void Bridge::displaySensorIDs()
+int* Bridge::getSensorIDs()
 { //view which Sensor Node is connected to this Bridge
       cout<<"----------------------Display Sensor IDs----------------------------"<<endl;
       for (int i = 0; i < numSensors; i++){
             cout<<"Sensor "<<i+1<<" ID: "<<sensors[0]<<endl;
       }
+      return sensors;
 }
 
 

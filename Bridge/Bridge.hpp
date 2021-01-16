@@ -17,6 +17,6 @@ protected:
 public:
       Bridge(int id, int cid, int controlPort);// control port = 0 (main SPI)
       void addSensor(int sid, int sensorPort);// sensor port = 1 (aux SPI)
-      void displaySensorIDs();
+      int* getSensorIDs();
 };
 #endif
