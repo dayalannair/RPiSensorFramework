@@ -19,6 +19,24 @@ run the program using sudo ./Main. Sudo required to initialise pigpio daemon.
 
 The Raspberry Pi will have to be connected in spi loopback mode i.e. connect the MOSI pin to the MISO. 
 
+### Handlers
+
+#### Bridge control handler
+
+This handler checks that the target node belongs to the bridge, which reduces flooding in the network, before forwarding to the target node.
+
+#### Sensor control handler
+
+This checks that the node is the target node, and then executes the command.
+
+#### Bridge data handler
+
+Forwards data to control node.
+
+#### Control data handler
+
+Unpacks data and stores in a repository, using Data objects. (see Data class in Control folder).
+
 ## Communication packets
 
 Received packets are read from the rx_buffer, which is refreshed whenever sent out of the node via spi (spiXfer).
