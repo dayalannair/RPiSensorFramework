@@ -11,12 +11,13 @@ int bridge_c_handler(int nid, BYTE *ctr, unsigned int sz)
     BYTE command;
     int nodeID;
     nodeID = ctr[1] - '0';//conv to int
+    cout<<"Node ID from packet: "<<nodeID<<endl;
 //check if node ID of command matches the ID provided. this ID will be 
 
     if (nodeID == nid){    
         cout<<"Node ID from received packet matches the ID provided"<<endl;
         if (type == 'c'){
-            cout<<"Forwarding..."<<endl;
+            cout<<"Forwarding to sensor node ID: "<<nid<<endl;
             return 2;
         }
         //set the active command which will be executed by sensor
@@ -53,28 +54,38 @@ int sensor_c_handler(int nid, BYTE *ctr, unsigned int sz){
 int main(){
     char userInput;
     
-    Control control(1);
-    Bridge bridge(2,1,0);
-    Sensor sensor(3, 'T', 10); //T = temperature
-
-    bridge.addSensor(3,1);
-    control.addBridge(2,0);
-
-    control.displayBridges();
-    bridge.getSensorIDs();
     
+
+    Sensor sensor(3, 'T', 10); //T = temperature
+    
+    
+    
+
+
+    cout<<"++++++++++++++++++++++++ Control Node command send/recv test ++++++++++++++++++++++++++++++"<<endl;
+    Control control(1);
+    control.addBridge(2,0);
+    control.displayBridges();
 
     //turn on sensors with bridge ID 456
     control.command('1', 2, 3);
-
-    //bridge.getRxBuffer();
-    //sensor.getRxBuffer();
     char* rx = control.getRxBuffer();
 
+    control.closeGPIO();
+
+
+    cout<<"++++++++++++++++++++++++ Bridge Node command send/recv test ++++++++++++++++++++++++++++++"<<endl;
+    Bridge bridge(2,1,0);
+    bridge.addSensor(3,1);
+    //turn on sensors with bridge ID 456
+    //similar to recv c control bc control wont recv c
+    int* bridgeSIDs = bridge.getSensorIDs();
+    cout<<bridgeSIDs[0]<<" "<<bridgeSIDs[1]<<endl;
     control.recv_c_handler(0, bridge_c_handler);
-    // cout<<bridge.getRxBuffer()<<endl;
-    // int handler = Handler(bridge, bridge.getRxBuffer(), 3);
-    control.recv_c(3);
+    control.recv_c(bridgeSIDs);
+    control.closeGPIO();
+
+    //bridge.recv_c(bridgeSIDs);
     //bridge.recv_c_handler(0,)
     //thread for receiving data?
     bool nodeOn = true;

@@ -10,8 +10,14 @@ void Node::setActiveCommand(int c){
 
 }
 
-void Node::recv_c(int nid){
-      ControlHandlers[0](nid,rx_buffer,3);
+void Node::recv_c(int* sids){
+      ControlHandlers[0](sids[0],rx_buffer,3);
+      cout<<ControlHandlers[0];
+      //try for all sensor IDs belonging to bridge
+      if  (ControlHandlers[0] == 0){
+            ControlHandlers[0](sids[1],rx_buffer,3);
+      }
+      
 }
 
 
@@ -63,7 +69,7 @@ char* Node::getRxBuffer(){
       // char* rx = rx_buffer;
       // return rx;
 
-      cout<<"Received: "<<endl;
+      cout<<"Received: ";
       for (int i=0; i<3; i++) {
             
             cout <<rx_buffer[i];
