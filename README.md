@@ -17,6 +17,8 @@ Example program (main.cpp) uses only SPI for communication, and is therefore lim
 
 run the program using sudo ./Main. Sudo required to initialise pigpio daemon.
 
+The Raspberry Pi will have to be connected in spi loopback mode i.e. connect the MOSI pin to the MISO. 
+
 ## Communication packets
 
 Received packets are read from the rx_buffer, which is refreshed whenever sent out of the node via spi (spiXfer).
