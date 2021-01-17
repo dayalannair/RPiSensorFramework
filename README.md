@@ -26,7 +26,6 @@ The control packet is made up of 4 bytes:
 
 |      0      |      1      |   2   |
 | ----------- | ----------- | ----- |
-| 'c' - indicates control pkt| Title       |
-| Paragraph   | Text        |
+| 'c' - indicates control pkt| id - byte indicating target node ID| cmd - command to be executed|'x' - indicate end of pkt(optional)|
 
-'c' - indicates 
+
