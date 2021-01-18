@@ -25,5 +25,6 @@ public:
     int getSamplingRate();
     void executeCommand();
     void on();
+    int getID();
 };
 #endif

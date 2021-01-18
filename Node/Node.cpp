@@ -10,14 +10,16 @@ void Node::setActiveCommand(int c){
 
 }
 
-void Node::recv_c(int* sids){
+//returns sensor ID that matches the one in the packet
+int Node::recv_c(int* sids){
       ControlHandlers[0](sids[0],rx_buffer,3);
       cout<<ControlHandlers[0];
       //try for all sensor IDs belonging to bridge
       if  (ControlHandlers[0] == 0){
             ControlHandlers[0](sids[1],rx_buffer,3);
+            return sids[1];
       }
-      
+      return sids[0];
 }
 
 

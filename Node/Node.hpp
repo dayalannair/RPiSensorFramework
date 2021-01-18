@@ -33,7 +33,7 @@ protected:
 public:
     void recv_c_handler(int port, NodeControlHandler *handler); //use int in place of handler
     void recv_sd_handler(int port, SensorDataHandler *handler);
-    void recv_c(int* sids);
+    int recv_c(int* sids);
     void send_c(int port, BYTE *ctr, unsigned sz);
     void send_sd(BYTE *data, unsigned sz);
     bool isOn();

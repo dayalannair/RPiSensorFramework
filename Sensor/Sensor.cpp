@@ -28,6 +28,9 @@ int Sensor::getSamplingRate()
 {
       return samplingRate;
 };
+int Sensor::getID(){
+      return nid;
+}
 
 //run this inside a thread
 void Sensor::executeCommand(){
