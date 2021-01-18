@@ -54,36 +54,33 @@ int sensor_c_handler(int nid, BYTE *ctr, unsigned int sz){
 int main(){
     char userInput;
     
-    
-
+    Control control(1);
+    Bridge bridge(2,1,0);
     Sensor sensor(3, 'T', 10); //T = temperature
     
     
-    
-
-
-    cout<<"++++++++++++++++++++++++ Control Node command send/recv test ++++++++++++++++++++++++++++++"<<endl;
-    Control control(1);
     control.addBridge(2,0);
+    bridge.addSensor(3,1);
+    cout<<"++++++++++++++++++++++++ Control Node command send/recv test ++++++++++++++++++++++++++++++"<<endl;
     control.displayBridges();
 
     //turn on sensors with bridge ID 456
     control.command('1', 2, 3);
     char* rx = control.getRxBuffer();
-
+    control.recv_c_handler(0, bridge_c_handler);
+    int* bridgeSIDs = bridge.getSensorIDs();
+    control.recv_c(bridgeSIDs);
     control.closeGPIO();
 
 
     cout<<"++++++++++++++++++++++++ Bridge Node command send/recv test ++++++++++++++++++++++++++++++"<<endl;
-    Bridge bridge(2,1,0);
-    bridge.addSensor(3,1);
+    
     //turn on sensors with bridge ID 456
     //similar to recv c control bc control wont recv c
-    int* bridgeSIDs = bridge.getSensorIDs();
-    cout<<bridgeSIDs[0]<<" "<<bridgeSIDs[1]<<endl;
-    control.recv_c_handler(0, bridge_c_handler);
-    control.recv_c(bridgeSIDs);
-    control.closeGPIO();
+    //cout<<bridgeSIDs[0]<<" "<<bridgeSIDs[1]<<endl;
+    bridge.recv_c_handler(0, bridge_c_handler);
+    bridge.recv_c(bridgeSIDs);
+    bridge.closeGPIO();
 
     //bridge.recv_c(bridgeSIDs);
     //bridge.recv_c_handler(0,)
