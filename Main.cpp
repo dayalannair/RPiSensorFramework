@@ -3,6 +3,10 @@
 
 // handle an incoming control command, may need to forward on
 //not sure how the following 3 functions work together. Ask in next meeting.
+
+
+//Global variables to facilitate example on a single device
+//extern int command = 0;
 int bridge_c_handler(int nid, BYTE *ctr, unsigned int sz)
 {
     cout<<"node ID provided: "<<nid<<endl;
@@ -42,9 +46,11 @@ int sensor_c_handler(int nid, BYTE *ctr, unsigned int sz){
             if (nodeID == nid){
                   //set the active command which will be executed by sensor
                   cout<<"Node ID from received packet matches the ID provided. Executing..."<<endl;
-                  //setActiveCommand(ctr[2]);
+                  cout<<"Command: "<<ctr[2]<<endl;
+                  command = ctr[2] - '0';
+                  cout<<"integer: "<<ctr[2] - '0'<< command<<endl;
                   //execute command
-                  return 3;
+                  return ctr[2] - '0';
             }
       }
       return 0;    
@@ -98,6 +104,8 @@ cout<<"++++++++++++++++++++++++ Sensor Node command send/recv test +++++++++++++
 
     sensor.recv_c_handler(0, sensor_c_handler);
     sensor.recv_c(bridgeSIDs);//bridge sids for now
+    //sensor.setActiveCommand(command);
+    cout<<"Active command: " << sensor.getActiveCommand()<<endl;
 
 
 

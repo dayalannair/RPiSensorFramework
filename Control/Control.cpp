@@ -10,6 +10,7 @@ Control::Control(int controlID)
 {
     isRepo = true; //repo part of control node
     nid = controlID;
+    nodeType = 'c';
     //setupIO(0);
 }
 //commands affect all Nodes or one in particular?

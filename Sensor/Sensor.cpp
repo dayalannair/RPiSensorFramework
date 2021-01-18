@@ -9,6 +9,7 @@ Sensor::Sensor(int id, char t, int r)//port can be used to specify control port.
       samplingRate = r;
       setupIO(0);
       setupIO(1);
+      nodeType = 's';
 
 }
 //get functions will be linked to specific commands sent by the control node
@@ -31,9 +32,12 @@ int Sensor::getSamplingRate()
 int Sensor::getID(){
       return nid;
 }
+int Sensor::getActiveCommand(){
+      return activeCommand;
 
+}
 //run this inside a thread
-void Sensor::executeCommand(){
+void Sensor::executeCommand(void* arg){
       switch(activeCommand){
             case 1:
                   on_off = true;
@@ -50,17 +54,20 @@ void Sensor::executeCommand(){
                   activeCommand = 0; //reset active command     
 
       }
+      pthread_exit(NULL);
 
 }
 void Sensor::on(){
       //no need for rx thread. can periodically check. 
-      int cmd_thread;
-      pthread_t threads[1];
-      //cmd_thread = pthread_create(&threads[1], NULL, executeCommand , (void *)1);
+      // int cmd_thread;
+      // pthread_t threads[1];
+      // cout<<"thread for executing commands created"<<endl;
+      // cmd_thread = pthread_create(&threads[1], NULL, &Sensor::executeCommand , NULL);
 
-      while(on_off == true){
+      // while(on_off == true){
            
-      }
+      // }
+      //need to void pthread_exit(void *retval);
 
 
 

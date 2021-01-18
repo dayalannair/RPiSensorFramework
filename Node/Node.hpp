@@ -22,7 +22,7 @@ protected:
     char rx_buffer[8]; 
     NodeControlHandler * ControlHandlers[256]; // assuming only 16 ports IDs 0..15
     SensorDataHandler *DataHandler;
-    int nodeType; 
+    BYTE nodeType; 
     int activeCommand;
     /*
     1 - control
