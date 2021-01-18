@@ -1,5 +1,5 @@
 # RPiSensorFramework
-Framework for a sensor array using Raspberry Pi nodes
+Application framework for a sensor array using Raspberry Pi nodes. This is to be used as a changeable/adaptable baseline, with the intention of developers modifying it as needed.
 
 ### Notes: 
 
