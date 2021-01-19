@@ -23,8 +23,8 @@ public:
     char getType();
     void setSamplingRate(int r);
     int getSamplingRate();
-    int getActiveCommand();
-    void executeCommand(void* arg);
+    //int getActiveCommand();
+    void executeCommand(BYTE cmd);
     void on();
     int getID();
 };

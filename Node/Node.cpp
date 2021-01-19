@@ -11,19 +11,12 @@ void Node::setActiveCommand(int c){
 }
 
 //returns sensor ID that matches the one in the packet
-int Node::recv_c(int* sids){
+void Node::recv_c(int* sids){
       ControlHandlers[0](sids[0],rx_buffer,3);
-      cout<<"Value of handler: "<<ControlHandlers[0]<<endl;
       //try for all sensor IDs belonging to bridge
       if  (ControlHandlers[0] == 0){
             ControlHandlers[0](sids[1],rx_buffer,3);
-            return sids[1];
       }
-      //the return value will be the command when dealing with a sensor node
-      if (nodeType == 's'){
-            activeCommand = (int)ControlHandlers[0];
-      }
-      return sids[0];
 }
 
 

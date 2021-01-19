@@ -32,29 +32,50 @@ int Sensor::getSamplingRate()
 int Sensor::getID(){
       return nid;
 }
-int Sensor::getActiveCommand(){
-      return activeCommand;
+// int Sensor::getActiveCommand(){
+//       return activeCommand;
 
-}
+// }
 //run this inside a thread
-void Sensor::executeCommand(void* arg){
-      switch(activeCommand){
-            case 1:
+void Sensor::executeCommand(BYTE cmd){
+      switch(cmd){
+            case '1':{
                   on_off = true;
-            case 2:
+                  cout<<"Sensor turned on."<<endl;
+                  break;
+            }
+                  
+            case '2':{
                   on_off = false;
-            case 3:
-                  samplingRate = 1000;
-            case 4:
+                  cout<<"Sensor turned off."<<endl;
+                  break;
+            }
+                  
+            case '3':{
                   samplingRate = 10000;
-            case 5:
+                  cout<<"Sampling rate: 10 000"<<endl;
+                  break;
+            }
+                  
+                  
+            case '4':{
+                  samplingRate = 1000;
+                  cout<<"Sampling rate: 1 000"<<endl;
+                  break;
+            }
+                  
+            case '5':{
                   samplingRate = 10;
+                  cout<<"Sampling rate: 10"<<endl;
+                  break;
+            }
+                  
             //add more commands here 
             default:
-                  activeCommand = 0; //reset active command     
+                  cout<<"Command not recognised."<<endl; //reset active command     
 
       }
-      pthread_exit(NULL);
+      //pthread_exit(NULL);
 
 }
 void Sensor::on(){
