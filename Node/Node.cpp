@@ -5,10 +5,10 @@ int Node::getID(){
       return nid;
 }
 
-void Node::setActiveCommand(int c){
-      activeCommand = c;
+// void Node::setActiveCommand(int c){
+//       activeCommand = c;
 
-}
+// }
 
 //returns sensor ID that matches the one in the packet
 void Node::recv_c(int* sids){
@@ -120,3 +120,4 @@ void Node::closeGPIO(){
       gpioTerminate();
 }
 
+//int main(){return 0;}

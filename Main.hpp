@@ -2,9 +2,9 @@
 #define MAIN_H
 
 
-#include "Control/Control.cpp"
-#include "Sensor/Sensor.cpp"
-#include "Bridge/Bridge.cpp"
+#include "Control/Control.hpp"
+#include "Sensor/Sensor.hpp"
+#include "Bridge/Bridge.hpp"
 
 #endif
 

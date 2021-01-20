@@ -29,9 +29,6 @@ int Sensor::getSamplingRate()
 {
       return samplingRate;
 };
-int Sensor::getID(){
-      return nid;
-}
 // int Sensor::getActiveCommand(){
 //       return activeCommand;
 

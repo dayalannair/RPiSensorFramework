@@ -4,10 +4,8 @@ VERBOSE = TRUE
 Bridge: Bridge.o
 	$(CC) $(CFLAGS) -o Bridge Bridge.o
 	
-Bridge.o: Bridge.hpp
+Bridge.o: Node.hpp Bridge.hpp
 	$(CC) $(CFLAGS) -c Bridge.cpp
-	
-Bridge.o: Bridge.hpp
 
 clean: 
 	$(RM) Bridge *.o *~

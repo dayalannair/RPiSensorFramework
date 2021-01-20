@@ -11,8 +11,8 @@ Attached bridges will be daisy-chained.
 #ifndef CONTROL_H
 #define CONTROL_H
 
-#include "../Node/Node.cpp"
-#include "Data.cpp"
+#include "../Node/Node.hpp"
+#include "Data.hpp"
 
 class Control : public Node
 {

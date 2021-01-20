@@ -1,6 +1,6 @@
 #ifndef BRIDGE_H
 #define BRIDGE_H
-//#include "../Node/Node.cpp"
+#include "../Node/Node.hpp"
 
 class Bridge : public Node
 {
