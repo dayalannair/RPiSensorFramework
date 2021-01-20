@@ -1,31 +1,39 @@
 /*
-Sensor Node class
-The constructor does not require a port as a sensor node is only required to connect to 1 sensor.
-Here, the sensor data is received through the main SPI port and is sent to the bridge via the auxiliary SPI port.
-
 Author: Dayalan Nair
 Date: January 2021
+
+Sensor Node class
+
+This is a Node subclass which is designed to interface directly with the sensor and can execute commands received from the bridge node.
+These nodes can be daisy-chained: data will flow towards the bridge and commands wikk be excuted by nodes with IDs matching that which was received with the command.
+
 */
 
 #ifndef SENSOR_H
 #define SENSOR_H
-//#include "../Node/Node.cpp"
+#include "../Node/Node.hpp"
 
 class Sensor : public Node
 {
 protected:
-    char type;      //Sensor type e.g. temperature sensor
-    int samplingRate; //sampling rate of the ADC
+    //Sensor type e.g. temperature sensor
+    char type;      
+    //sampling rate of the ADC
+    int samplingRate; 
 
 public:
+    //Contructor. This sets the node's ID as well as an initial sampling rate and sensor type
     Sensor(int id, char t, int r);
+    //-------------------------------set functions--------------------------------
     void setType(char t);
-    char getType();
     void setSamplingRate(int r);
+    //-------------------------------get functions--------------------------------
+    char getType();
     int getSamplingRate();
-    //int getActiveCommand();
+    //function to execute commands. the command BYTE is passed to the function after being extracted from the control packet by a handler
     void executeCommand(BYTE cmd);
+    //on function would be used to initiate threading if required
     void on();
-    int getID();
+    
 };
 #endif
