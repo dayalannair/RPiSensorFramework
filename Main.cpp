@@ -18,7 +18,7 @@ int bridge_c_handler(int nid, BYTE *ctr, unsigned int sz)//may not need sz here 
 {
     cout<<"Current node ID: "<<nid<<endl;
     cout<<"control packet: "<<ctr[0]<<" "<<ctr[1]<<" "<<ctr[2]<<" "<<ctr[3]<<endl;
-    BYTE type = ctr[0];//indicates that a command is to follow. declare outside fn?
+    BYTE type = ctr[0];
     int sensorID = ctr[1] - '0';//conv to int;
     int bridgeID = ctr[2] - '0';
     cout<<"Node ID from packet: "<<bridgeID<<endl;
@@ -50,7 +50,7 @@ int bridge_c_handler(int nid, BYTE *ctr, unsigned int sz)//may not need sz here 
 int sensor_c_handler(int nid, BYTE *ctr, unsigned int sz){
     cout<<"control packet: "<<ctr[0]<<" "<<ctr[1]<<" "<<ctr[2]<<" "<<ctr[3]<<endl;
     cout<<"Current node ID: "<<nid<<endl;
-    BYTE type = ctr[0];//indicates that a command is to follow. declare outside fn?
+    BYTE type = ctr[0];
       int nodeID = ctr[1] - '0';//conv to int;
       if (type == 'c'){
             if (nodeID == nid){
@@ -66,22 +66,63 @@ int sensor_c_handler(int nid, BYTE *ctr, unsigned int sz){
 
 
 }
+/*
+=====================================================================================
+Handler for a bridge receiving data from a sensor
+=====================================================================================
 
+*/
 int bridge_d_handler(BYTE *ctr, unsigned int sz)
 {
     
     //cout<<"data packet: "<<ctr[0]<<" "<<ctr[1]<<" "<<ctr[2]<<endl;
-    BYTE type = ctr[0];//indicates that a command is to follow. declare outside fn?
-    int size = ctr[1]-'0';
+    BYTE type = ctr[0];
+    int size = ctr[2]-'0';
+    cout<<"Sensor ID of node that recorded data: "<<ctr[1]<<endl;
     cout<<"size of data (from packet): "<<size<<endl<<"Received data: ";
+    
     for (int i = 0; i < size;i++){
-        cout<<ctr[i+2];
+        cout<<ctr[i+3];
     }
     cout<<endl;
     if (type == 'd'){
             cout<<"Forwarding data to control node "<<endl;
             //port 1 is output to sensor/daisy chain
             bridge.send_c(0,ctr, sz);
+            return 2;
+        }
+    else{
+        cout<<"Data handler called on non-data packet."<<endl;
+        return 1;
+    }
+
+    return 0;
+}
+
+/*
+=====================================================================================
+Handler for a control node receiving data from a bridge
+=====================================================================================
+
+*/
+int control_d_handler(BYTE *ctr, unsigned int sz)
+{
+    
+    //cout<<"data packet: "<<ctr[0]<<" "<<ctr[1]<<" "<<ctr[2]<<endl;
+    BYTE type = ctr[0];
+    int sensorID = ctr[1] - '0';
+    int size = ctr[2]-'0';
+    cout<<"Sensor ID of node that recorded data: "<<sensorID<<endl;
+    cout<<"size of data (from packet): "<<size<<endl<<"Received data: ";
+    
+    for (int i = 0; i < size;i++){
+        cout<<ctr[i+3];
+    }
+    cout<<endl;
+    if (type == 'd'){
+            cout<<"Storing... "<<endl;
+
+
             return 2;
         }
     else{
@@ -154,23 +195,29 @@ int main(){
 
     cout<<"================= Bridge Node data send/recv test ======================="<<endl;
     int data_size = 4; //4 bytes of data
-    BYTE to_send_d[data_size + 2];
+    BYTE to_send_d[data_size + 3];
     BYTE data[data_size] = {'w','x','y','z'};
     
     //-----------------data packet--------------------
     to_send_d[0] = 'd';
-    to_send_d[1] = data_size +  '0'; 
+    to_send_d[1] = sensor.getID()+'0';
+    to_send_d[2] = data_size +  '0';
+
     
-    for (int i = 2; i<6;i++){
-        to_send_d[i] = data[i-2];
+    for (int i = 3; i<=6;i++){
+        to_send_d[i] = data[i-3];
 
     }
 
-    bridge.send_sd((BYTE*)to_send_d, data_size+2);
+    bridge.send_sd((BYTE*)to_send_d, data_size+3);
     bridge.recv_sd_handler(0, bridge_d_handler);
-    bridge.recv_sd(data_size+2);
+    bridge.recv_sd(data_size+3);
 
+    cout<<"================= Control Node data send/recv test ======================="<<endl;
 
+    // control.send_sd((BYTE*)to_send_d, data_size+3);
+    // control.recv_sd_handler(0, control_d_handler);
+    // control.recv_sd(data_size+3);
     sensor.closeGPIO();
     cout<<endl<<"---------------------User interface-------------------------"<<endl<<endl;
     bool nodeOn = true;

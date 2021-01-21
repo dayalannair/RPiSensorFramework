@@ -33,7 +33,8 @@ protected:
   */
   //list of valid command that will be recognised by the sensor
   BYTE commands[4] = {'1', '2', '3', '4'};
-  Data SensorData[]; // array of type Data (see class below). Need DYNAMIC array
+  int numData = 0;
+  Data SensorData[64]; // array of type Data (see class below). Need DYNAMIC array
   //main user interface through this Node
   //array to hold Sensor data: 2D? account for multiple Sensors and readings
 
@@ -52,5 +53,8 @@ public:
 
   //allows user to interface with the control node using simple inputs.
   void inputHandler(BYTE cmd);
+
+  //save data to an array which can be written to permanent storage
+  void saveData(int sensorID, BYTE* data, int time);
 };
 #endif

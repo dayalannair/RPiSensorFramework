@@ -13,15 +13,17 @@ The array acts as a repository and would be transferred to permanent storage at 
 using namespace std;
 class Data
 {
-private:
+protected:
     //ID of sensor from which data was received
     int sensorID;
     //time at which sample was received by the control node
     int time; //may need string
     //the data (possibly formatted) corresponding to the sample.
-    int dataSample;
+    BYTE dataSample[64];
 
 public:
+    //Contructor
+    Data(int ID, int t, BYTE* sample);
     //displays a particular sample
     string toString();
     //returns the ID of the sensor that recorded the sample.

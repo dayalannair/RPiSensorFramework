@@ -94,6 +94,17 @@ void Control::addBridge(int bid, int port)
     }
 }
 
+void Control::saveData(int sensorID, BYTE* data, int time){
+    
+    if (numData < 64){
+        Data new_data(sensorID, time, data);
+        SensorData[numData] = new_data;
+        numData++;
+
+    }
+
+
+}
 
 //display data from the repo connected to the control node. Could be improved
 // int Control::getData(int samples, int sid)
