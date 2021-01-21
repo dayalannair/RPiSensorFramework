@@ -63,9 +63,9 @@ The control packet received by the sensor node from the bridge node is made up o
 
 The data packet is made up as follows:
 
-|      0      |      1      |   2 -> 2+sz  |
-| ----------- | ----------- | ----- |
-| 'd' - indicates data pkt| sz - size of data in packet| data|
+|      0      |      1      |       2      |  3 -> 2+sz  |
+| ----------- | ----------- | ----- |----- |
+| 'd' - indicates data pkt| sensor ID - ID of sensor that recorded data |sz - size of data in packet| data|
 
 If a 'd' is found in the data (e.g. the ASCII integer), the next byte will be analysed. If this byte is not in the range of a typical sz byte, the data will continue to be read as normal. Otherwise, the device will read in the next byte as the sz (size) of data to follow.
 
