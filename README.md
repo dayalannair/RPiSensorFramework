@@ -51,7 +51,7 @@ The control packet received by the bridge node from the control node is made up 
 | ----------- | ----------- | ----- | ------    |
 | 'c' - indicates control pkt| sensor ID - byte indicating target node ID|bridge ID - byte indicating target bridge ID |cmd - command to be executed|
 
-#### 1.1 Sensor control packet
+#### 1.2 Sensor control packet
 
 The control packet received by the sensor node from the bridge node is made up of 3 bytes: 
 
