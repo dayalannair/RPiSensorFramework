@@ -43,19 +43,29 @@ Received packets are read from the rx_buffer, which is refreshed whenever sent o
 
 ### 1. Control packet
 
-The control packet is made up of 4 bytes: 
+#### 1.1 Bridge control packet
+
+The control packet received by the bridge node from the control node is made up of 4 bytes: 
 
 |      0      |      1      |   2   |     3       |
 | ----------- | ----------- | ----- | ------    |
-| 'c' - indicates control pkt| id - byte indicating target node ID| cmd - command to be executed|'x' - indicate end of pkt(optional)|
+| 'c' - indicates control pkt| sensor ID - byte indicating target node ID|bridge ID - byte indicating target bridge ID |cmd - command to be executed|
+
+#### 1.1 Sensor control packet
+
+The control packet received by the sensor node from the bridge node is made up of 3 bytes: 
+
+|      0      |      1      |   2   |
+| ----------- | ----------- | ----- |
+| 'c' - indicates control pkt| sensor ID - byte indicating target node ID|cmd - command to be executed|
 
 ### 2. Data packet
 
 The data packet is made up as follows:
 
-|      0      |      1      |   2 -> 2+sz  |     3+sz       |
-| ----------- | ----------- | ----- | ------    |
-| 'd' - indicates data pkt| sz - size of data in packet| data|'x' - indicate end of pkt(optional)|
+|      0      |      1      |   2 -> 2+sz  |
+| ----------- | ----------- | ----- |
+| 'd' - indicates data pkt| sz - size of data in packet| data|
 
 If a 'd' is found in the data (e.g. the ASCII integer), the next byte will be analysed. If this byte is not in the range of a typical sz byte, the data will continue to be read as normal. Otherwise, the device will read in the next byte as the sz (size) of data to follow.
 
