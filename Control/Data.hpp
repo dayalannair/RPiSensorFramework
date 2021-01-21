@@ -10,7 +10,7 @@ The array acts as a repository and would be transferred to permanent storage at 
 #ifndef DATA_H
 #define DATA_H
 #include <string>
-
+using namespace std;
 class Data
 {
 private:

@@ -13,8 +13,8 @@ VPATH = Node Bridge Control Sensor
 # 	$(CC) $(CFLAGS) -c Main.cpp
 
 
-DEPS = Main.hpp Node.hpp Control.hpp Sensor.hpp Bridge.hpp Data.hpp
-OBJ = Main.o Node.o Control.o Sensor.o Bridge.o Data.o
+DEPS = Node.hpp Control.hpp Sensor.hpp Bridge.hpp Data.hpp Main.hpp 
+OBJ = Node.o Control.o Sensor.o Bridge.o Data.o Main.o 
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)

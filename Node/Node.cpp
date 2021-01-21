@@ -11,12 +11,12 @@ int Node::getID(){
 // }
 
 //returns sensor ID that matches the one in the packet
-void Node::recv_c(int* sids){
-      ControlHandlers[0](sids[0],rx_buffer,3);
-      //try for all sensor IDs belonging to bridge
-      if  (ControlHandlers[0] == 0){
-            ControlHandlers[0](sids[1],rx_buffer,3);
-      }
+void Node::recv_c(int id){
+      ControlHandlers[0](id,rx_buffer,3);
+}
+void Node::recv_sd(unsigned int sz){
+      DataHandlers[0](rx_buffer,sz);
+
 }
 
 
@@ -81,14 +81,17 @@ char* Node::getRxBuffer(){
 void Node::recv_sd_handler(int port, SensorDataHandler *handler)
 {
       // tell system what function to call on incoming Sensor data (packets or BYTEs)
-      if (isRepo == false) //if Node is Sensor or Bridge, forward
-      {
-            send_sd(rx_buffer, 1);
-      }
-      else
-      {
-            //write data to repository. may not need else statement as the control Node can write data directly from port to repo
-      }
+      // if (isRepo == false) //if Node is Sensor or Bridge, forward
+      // {
+      //       send_sd(rx_buffer, 1);
+      // }
+      // else
+      // {
+      //       //write data to repository. may not need else statement as the control Node can write data directly from port to repo
+      // }
+      if (port>=0 && port<=15){
+            DataHandlers[port] = handler; //SPI port either 0 or 1
+      } 
 }
 
 void Node::setupIO(int port) //set up gpio given input and output ports

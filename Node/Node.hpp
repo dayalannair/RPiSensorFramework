@@ -16,8 +16,8 @@ and sending data and commands.
 #include <iostream>
 using namespace std;
 typedef char BYTE;//spiXfer uses char* not unsigned char
-
-typedef int SensorDataHandler(int nid, int bn, BYTE *data, unsigned int sz); 
+//int nid, int bn,
+typedef int SensorDataHandler(BYTE *data, unsigned int sz); 
 typedef int NodeControlHandler(int id, BYTE *ctr, unsigned int sz);
 
 class Node
@@ -37,7 +37,7 @@ protected:
     char rx_buffer[8]; 
     //These are placeholders for handler functions defined in the Main program
     NodeControlHandler * ControlHandlers[256]; // assuming only 16 ports IDs 0..15
-    SensorDataHandler *DataHandler;
+    SensorDataHandler *DataHandlers[256];
 
     BYTE nodeType; 
     //int activeCommand;
@@ -52,7 +52,8 @@ public:
     void recv_c_handler(int port, NodeControlHandler *handler);
     void recv_sd_handler(int port, SensorDataHandler *handler);
 
-    void recv_c(int* sids);
+    void recv_c(int id);
+    void recv_sd(unsigned int sz);
 
     //send command and data functions. These both make use of spiXfer from the pigpio library
     void send_c(int port, BYTE *ctr, unsigned sz);
