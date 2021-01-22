@@ -73,4 +73,7 @@ An end-of-packet indicator may not be neccesary as the sz bit could be used for 
 
 No target ID is needed, as the only target for a data packet (denoted by 'd') is the control node.
 
+## Data Handling
+
+Data packets are converted into data objects, which are stored in an array in the Control node program. This array can either be written to permanent storage or uploaded to cloud storage, depending on the user's needs. The data object contains a function for displaying the specific sample, made up of the source sensor node ID, the time at which the sample was recorded and the data sample itself. The data class can be modified to meet developer's needs. 
 
