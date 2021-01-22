@@ -94,13 +94,16 @@ void Control::addBridge(int bid, int port)
     }
 }
 
-void Control::saveData(int sensorID, BYTE* data, int time){
+void Control::saveData(int sensorID,BYTE* time, BYTE* data,  unsigned int sz){
     
     if (numData < 64){
-        Data new_data(sensorID, time, data);
-        SensorData[numData] = new_data;
+        Data new_data(sensorID, time, data, sz);
+        sensorData[numData] = new_data;
         numData++;
 
+    }
+    else{
+        cout<<"Data array is full. Store data in repository."<<endl;
     }
 
 
@@ -167,7 +170,7 @@ void Control::inputHandler(BYTE cmd)
 
         for (int i; i < samples; i++)
         {
-            cout << SensorData[i].toString(); //see data class below
+            sensorData[i].printSample();
         }
         break;
 

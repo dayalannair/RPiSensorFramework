@@ -105,25 +105,33 @@ Handler for a control node receiving data from a bridge
 =====================================================================================
 
 */
-int control_d_handler(BYTE *ctr, unsigned int sz)
+int control_d_handler(BYTE *data, unsigned int sz)
 {
     
     //cout<<"data packet: "<<ctr[0]<<" "<<ctr[1]<<" "<<ctr[2]<<endl;
-    BYTE type = ctr[0];
-    int sensorID = ctr[1] - '0';
-    int size = ctr[2]-'0';
+    BYTE type = data[0];
+    int sensorID = data[1] - '0';
+    int size = data[2]-'0';
+    BYTE extracted_data[sz-3];
     cout<<"Sensor ID of node that recorded data: "<<sensorID<<endl;
-    cout<<"size of data (from packet): "<<size<<endl<<"Received data: ";
     
-    for (int i = 0; i < size;i++){
-        cout<<ctr[i+3];
-    }
-    cout<<endl;
+    
+    
+    
     if (type == 'd'){
-            cout<<"Storing... "<<endl;
+        cout<<"size of data (from packet): "<<size<<endl<<"Received data: ";
+        for (int i = 0; i < size;i++){
+            cout<<data[i+3];
+            extracted_data[i] = data[i+3];
 
+        }
+        cout<<endl;
+        time_t now = time(0);
+        char* dt = ctime(&now);
+        cout<<"Storing... "<<endl;
+        control.saveData(sensorID, extracted_data,dt,sz-3);
 
-            return 2;
+        return 2;
         }
     else{
         cout<<"Data handler called on non-data packet."<<endl;
@@ -215,8 +223,8 @@ int main(){
 
     cout<<"================= Control Node data send/recv test ======================="<<endl;
 
-    // control.send_sd((BYTE*)to_send_d, data_size+3);
-    // control.recv_sd_handler(0, control_d_handler);
+    control.send_sd((BYTE*)to_send_d, data_size+3);
+    control.recv_sd_handler(0, control_d_handler);
     // control.recv_sd(data_size+3);
     sensor.closeGPIO();
     cout<<endl<<"---------------------User interface-------------------------"<<endl<<endl;

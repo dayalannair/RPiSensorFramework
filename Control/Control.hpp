@@ -11,6 +11,7 @@ Attached bridges will be daisy-chained.
 #ifndef CONTROL_H
 #define CONTROL_H
 
+#include <ctime>
 #include "../Node/Node.hpp"
 #include "Data.hpp"
 
@@ -34,7 +35,7 @@ protected:
   //list of valid command that will be recognised by the sensor
   BYTE commands[4] = {'1', '2', '3', '4'};
   int numData = 0;
-  Data SensorData[64]; // array of type Data (see class below). Need DYNAMIC array
+  Data* sensorData = (Data*)malloc(sizeof(Data)*64); // array of type Data (see class below).
   //main user interface through this Node
   //array to hold Sensor data: 2D? account for multiple Sensors and readings
 
@@ -55,6 +56,6 @@ public:
   void inputHandler(BYTE cmd);
 
   //save data to an array which can be written to permanent storage
-  void saveData(int sensorID, BYTE* data, int time);
+  void saveData(int sensorID, BYTE* time, BYTE* data, unsigned int sz);
 };
 #endif

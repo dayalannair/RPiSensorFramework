@@ -1,4 +1,4 @@
-SUBDIRS = Node Bridge Control Sensor
+#SUBDIRS = Node Bridge Control Sensor
 CC=g++
 CFLAGS=-I -Wall -pthread -lpigpio -lrt
 VERBOSE = TRUE
@@ -13,8 +13,8 @@ VPATH = Node Bridge Control Sensor
 # 	$(CC) $(CFLAGS) -c Main.cpp
 
 
-DEPS = Node.hpp Control.hpp Sensor.hpp Bridge.hpp Data.hpp Main.hpp 
-OBJ = Node.o Control.o Sensor.o Bridge.o Data.o Main.o 
+DEPS = Node.hpp Data.hpp Control.hpp Sensor.hpp Bridge.hpp Main.hpp 
+OBJ = Node.o Data.o Control.o Sensor.o Bridge.o  Main.o 
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
