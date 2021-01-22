@@ -7,7 +7,7 @@ Data::Data(int ID, BYTE* t, BYTE* sample, unsigned int sz){
         dataSample[i] = sample[i]; 
 
     }
-
+    size = sz;
 }
 
 int Data::getID()
@@ -24,6 +24,15 @@ int Data::getID()
 void Data::printSample(){
 
     cout<<"Sensor ID: "<<sensorID<<endl;
-    cout<<"Time: "<<time<<endl;
-    cout<<"Sample: "<<dataSample<<endl;
+
+    //no endl as time contains a carriage return
+    cout<<"Time: "<<time;
+    cout<<"Sample: ";
+
+    //required to eliminate output of erroneous data
+    for (int i = 0; i<size;i++){
+        cout<<dataSample[i];
+
+    }
+    cout<<endl;
 }

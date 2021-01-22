@@ -129,7 +129,7 @@ int control_d_handler(BYTE *data, unsigned int sz)
         time_t now = time(0);
         char* dt = ctime(&now);
         cout<<"Storing... "<<endl;
-        control.saveData(sensorID, extracted_data,dt,sz-3);
+        control.saveData(sensorID,dt,extracted_data,sz-3);
 
         return 2;
         }
@@ -225,7 +225,8 @@ int main(){
 
     control.send_sd((BYTE*)to_send_d, data_size+3);
     control.recv_sd_handler(0, control_d_handler);
-    // control.recv_sd(data_size+3);
+    control.recv_sd(data_size+3);
+    cout<<"View data using the user interface below."<<endl;
     sensor.closeGPIO();
     cout<<endl<<"---------------------User interface-------------------------"<<endl<<endl;
     bool nodeOn = true;

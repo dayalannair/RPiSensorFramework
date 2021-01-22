@@ -167,10 +167,17 @@ void Control::inputHandler(BYTE cmd)
         int senseId;                                    //id of sensor whose data is required
         cout << "Enter number of samples to display: "; // Type a number and press enter
         cin >> samples;                                 // Get user input from the keyboard
-
-        for (int i; i < samples; i++)
+        cout<<endl<<"Samples requested: "<<samples<<endl;
+        for (int i = 0; i < samples; i++)
         {
-            sensorData[i].printSample();
+            if (sensorData[i].getID() == 0){
+                cout<<"Only "<<i<<" sample(s) exist in memory."<<endl;
+                break;
+            }
+            else{
+                sensorData[i].printSample();
+            }
+            
         }
         break;
 

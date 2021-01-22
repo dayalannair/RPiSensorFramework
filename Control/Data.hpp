@@ -26,6 +26,8 @@ protected:
     BYTE* time; //may need string
     //the data (possibly formatted) corresponding to the sample.
     BYTE dataSample[64];
+    //size of sample stored in data array
+    int size;
 
 public:
     //Contructor
