@@ -42,6 +42,7 @@ Unpacks data and stores in a repository, using Data objects. (see Data class in 
 ## Communication packets
 
 Received packets are read from the rx_buffer, which is refreshed whenever sent out of the node via spi (spiXfer).
+A list of basic commands are defined in the Node.hpp file. The developer can add to these, and should add the relevant actions to the switch statements in the Control and Sensor classes.
 
 ### 1. Control packet
 
