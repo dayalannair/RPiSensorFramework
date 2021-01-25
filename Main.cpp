@@ -250,12 +250,16 @@ int main(){
         cout<<x<<endl;
     }
     
-    while (sensor.isOn()){
+    while (true == 1/*sensor.isOn()*/){
         sleep(5);
         cout<<"Polling now. (5 seconds elapsed)"<<endl;
         //CONTINUE HERE
-
+        for (int chan = 0 ; chan < 8 ; ++chan){
+            x = analogRead (BASE + chan);
+        cout<<x<<endl;
+        }
     }
+    
 
     cout<<endl<<"---------------------User interface-------------------------"<<endl<<endl;
     bool nodeOn = true;
