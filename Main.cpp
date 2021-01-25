@@ -228,6 +228,15 @@ int main(){
     control.recv_sd(data_size+3);
     cout<<"View data using the user interface below."<<endl;
     sensor.closeGPIO();
+
+    cout<<"================= Sensor data polling test ======================="<<endl;
+    while (sensor.isOn()){
+        sleep(5);
+        cout<<"Polling now. (5 seconds elapsed)"<<endl;
+        //CONTINUE HERE
+
+    }
+
     cout<<endl<<"---------------------User interface-------------------------"<<endl<<endl;
     bool nodeOn = true;
     while (nodeOn)

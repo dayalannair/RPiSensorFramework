@@ -90,9 +90,16 @@ void Sensor::on(){
 
 
 }
+//================================== Main function ==================================
+
+//Uncomment and add code (such as that seen in the example "Main.cpp") inside the while loop
+//Add handlers/copy from the "Main.cpp" program
+
+//=====================================================================================
 
 // int main()
 // {
+      // ------------------ set up node here ----------------------------------------
 //       //dummy data used to set up framework
 //       int tempSensorData = 4;
 //       //configure input and output ports
@@ -100,6 +107,9 @@ void Sensor::on(){
 //       //convert this node to a sensor node
 //       Sensor thisNode(456,(BYTE*)"temp",64000); //789 is bridge ID
 //       thisNode.set_on_off(true);
+
+// -----------------------------------------------------------------------------
+
 //       while (thisNode.isOn())
 //       {
 //             //check for received commands

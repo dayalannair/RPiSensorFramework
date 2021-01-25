@@ -1,11 +1,16 @@
-# CC=g++
-# CFLAGS=-I -Wall -pthread -lpigpio -lrt
+CC=g++
+CFLAGS=-I -Wall -pthread -lpigpio -lrt
+VPATH = Node Sensor
+DEPS = Node.hpp Sensor.hpp
+OBJ = Node.o Sensor.o
 
-# Sensor: Sensor.o
-# 	$(CC) $(CFLAGS) -o Sensor Sensor.o
+%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+Sensor: $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+.PHONY: clean
 	
-# Sensor.o: Sensor.hpp Sensor.cpp Node.hpp
-# 	$(CC) $(CFLAGS) -c Sensor.cpp
-
-# clean: 
-# 	$(RM) Sensor *.o *~
+clean:
+	rm -f $(OBJ)/*.o *~ 

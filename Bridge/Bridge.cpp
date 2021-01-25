@@ -39,30 +39,36 @@ int* Bridge::getSensorIDs()
       return sensors;
 }
 
+//================================== Main function ==================================
 
+//Uncomment and add code (such as that seen in the example "Main.cpp") inside the while loop
+//Add handlers/copy from the "Main.cpp" program
+
+//=====================================================================================
 // int main()
 // {
-//       //creates node and sets control input and output ports
+// ------------------ set up node here ----------------------------------------
+//       //creates node and sets  port = 0
 //       //max id is 256
-//       Bridge thisNode(189,345, 0);
+//       Bridge thisNode(2,1, 0);
 
 //       //add sensors and setup IO
-//       thisNode.addSensor(234,1);
-//       //thisNode.addSensor(214,15,18);
+//       thisNode.addSensor(3,1);
+
+// -----------------------------------------------------------------------------
+//       
 //       //need to change meaning of on - turned on or sensing on
 //       thisNode.set_on_off(true);
 //       while (thisNode.isOn())
 //       {
-//             //check for received commands
-//             if (thisNode.isOn() == true)
-//             {
-//                   //receive data from sensor/s
-//                   //forward as packets incl. time, sensor ID and data
-//                   //use SPI
-//             }
-//             else
-//             {
-                  
-//             };
+//           sleep(5);
+
+//           cout<<"Polling now. (5 seconds elapsed)"<<endl;
+//           ------------------ add code here ------------------------------
+
+
+
+
+        //--------------------------------------------------------------------
 //       }
 // }

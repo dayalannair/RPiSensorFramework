@@ -185,17 +185,24 @@ void Control::inputHandler(BYTE cmd)
         cout << "Invalid input";
     }
 }
+//================================== Main function ==================================
 
+//Uncomment and add code (such as that seen in the example "Main.cpp") inside the while loop
+//Add handlers/copy from the "Main.cpp" program
+
+//=====================================================================================
 // int main()
 // {
+// ------------------ set up node here ----------------------------------------
 //     Control C1(123);
 //     char userInput;
 
 //     //turn on sensors with bridge ID 456
 //     C1.command('1', 456, 546);
 
-//     //thread for receiving data?
 //     bool nodeOn = true;
+// -----------------------------------------------------------------------------
+
 //     while (nodeOn)
 //     {
 //         cout << "Enter a command \n";

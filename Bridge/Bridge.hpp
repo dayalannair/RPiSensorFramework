@@ -1,7 +1,7 @@
 #ifndef BRIDGE_H
 #define BRIDGE_H
 #include "../Node/Node.hpp"
-
+#include <unistd.h>
 class Bridge : public Node
 {
 protected:

@@ -1,11 +1,16 @@
 CC=g++
 CFLAGS=-I -Wall -pthread -lpigpio -lrt
-VERBOSE = TRUE
-Bridge: Bridge.o
-	$(CC) $(CFLAGS) -o Bridge Bridge.o
-	
-Bridge.o: Node.hpp Bridge.hpp
-	$(CC) $(CFLAGS) -c Bridge.cpp
+VPATH = ../Node Bridge
+DEPS = Node.hpp Bridge.hpp
+OBJ = Node.o Bridge.o
 
-clean: 
-	$(RM) Bridge *.o *~
+%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+Bridge: $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+.PHONY: clean
+	
+clean:
+	rm -f $(OBJ)/*.o *~ 

@@ -1,11 +1,16 @@
 CC=g++
 CFLAGS=-I -Wall -pthread -lpigpio -lrt
-VERBOSE = TRUE
-Control: Control.o
-	$(CC) $(CFLAGS) -o Control Control.o
-	
-Control.o: Node.hpp Control.hpp Control.cpp 
-	$(CC) $(CFLAGS) -c Control.cpp
+VPATH = Node Control
+DEPS = Node.hpp Data.hpp Control.hpp
+OBJ = Node.o Data.o Control.o 
 
-clean: 
-	$(RM) Control *.o *~
+%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+Control: $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
+	
+.PHONY: clean
+	
+clean:
+	rm -f $(OBJ)/*.o *~ 
