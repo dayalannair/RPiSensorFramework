@@ -140,29 +140,52 @@ void Control::inputHandler(BYTE cmd)
     int id;
     switch (cmd)
     {
-    case '1':
+    case SENSOR_ON:{
         cout << "Start command selected. Enter Sensor ID: ";
         cin >> id;
         //send_c(bridges[0], &cmd, 1);//send to first bridge for now
         command(cmd, bridges[0], id);
         break;
 
-    case '2':
+    }
+        
+    case SENSOR_OFF:{
         cout << "Stop command selected. Enter Sensor ID: ";
         cin >> id;
         //send_c(bridges[0], &cmd, 1);//send to first bridge for now
         command(cmd, bridges[0], id);
         break;
 
-    case '3':
-        //sampling rate. Easier to use toggle OR use single integer commands for each sampling rate.
+    }
+        
+    case '3':{
         int sRate;
-        cout << "Enter desired sampling rate: ";
+        cout << "Select desired sampling rate: "<<endl<<"3 - 10 000"<<endl<<"4 - 1 000"<<endl<<"5 - 10"<<endl;
         cin >> sRate;
+        if (sRate == SAMPLE_10000){
+
+            
+        }
+        else if (sRate == SAMPLE_1000){
+
+
+        }
+        else if (sRate == SAMPLE_10){
+
+
+        }
+        else{
+            cout<<"Invalid selection."<<endl;
+        }
+
         //send_c(bridges[0], &cmd, 1);//send sRate also? or toggle
         break;
 
-    case '4':
+
+    }
+        //sampling rate. Easier to use toggle OR use single integer commands for each sampling rate.
+        
+    case '4':{
         int samples;
         int senseId;                                    //id of sensor whose data is required
         cout << "Enter number of samples to display: "; // Type a number and press enter
@@ -180,7 +203,8 @@ void Control::inputHandler(BYTE cmd)
             
         }
         break;
-
+    }
+    
     default:
         cout << "Invalid input";
     }

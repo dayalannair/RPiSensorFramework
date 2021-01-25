@@ -1,12 +1,24 @@
 /*
+Example program
 
+This tests each type of node and their respective functions.
+Uses SPI for communication and an MCP3008 ADC for reading data
 
-
-
+Author: Dayalan Nair
+Date: January 2021
 
 */
 #include "Main.hpp"
 #include <pigpio.h>
+
+//---------------- ADC setup -----------------------------
+#include <wiringPi.h>
+#include <mcp3004.h>
+#include <stdio.h>
+#include <stdlib.h>
+#define BASE 100
+#define SPI_CHAN 0
+//--------------------------------------------------------
 
 
 //Global variables to facilitate example on a single device
@@ -230,6 +242,14 @@ int main(){
     sensor.closeGPIO();
 
     cout<<"================= Sensor data polling test ======================="<<endl;
+    wiringPiSetup();
+    mcp3004Setup(BASE, SPI_CHAN); // 3004 and 3008 are the same 4/8 channels
+    int x;
+    for (int chan = 0 ; chan < 8 ; ++chan){
+        x = analogRead (BASE + chan);
+        cout<<x<<endl;
+    }
+    
     while (sensor.isOn()){
         sleep(5);
         cout<<"Polling now. (5 seconds elapsed)"<<endl;

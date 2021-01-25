@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-I -Wall -pthread -lpigpio -lrt
+CFLAGS=-I -Wall -pthread -lpigpio -lrt -lwiringPi
 VERBOSE = TRUE
 VPATH = Node Bridge Control Sensor
 DEPS = Node.hpp Data.hpp Control.hpp Sensor.hpp Bridge.hpp Main.hpp 

@@ -15,6 +15,15 @@ and sending data and commands.
 #include <pthread.h>
 #include <iostream>
 using namespace std;
+
+//----------------------- Command definitions ---------------------------------------
+#define SENSOR_ON '1'
+#define SENSOR_OFF '2'
+#define SAMPLE_10000 '3'
+#define SAMPLE_1000 '4'
+#define SAMPLE_10 '5'
+//------------------------------------------------------------------------------------
+
 typedef char BYTE;//spiXfer uses char* not unsigned char
 //int nid, int bn,
 typedef int SensorDataHandler(BYTE *data, unsigned int sz); 

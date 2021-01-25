@@ -35,33 +35,34 @@ int Sensor::getSamplingRate()
 // }
 //run this inside a thread
 void Sensor::executeCommand(BYTE cmd){
+      //switch statement using command definitions from the Node.hpp file
       switch(cmd){
-            case '1':{
+            case SENSOR_ON:{
                   on_off = true;
                   cout<<"Sensor turned on."<<endl;
                   break;
             }
                   
-            case '2':{
+            case SENSOR_OFF:{
                   on_off = false;
                   cout<<"Sensor turned off."<<endl;
                   break;
             }
                   
-            case '3':{
+            case SAMPLE_10000:{
                   samplingRate = 10000;
                   cout<<"Sampling rate: 10 000"<<endl;
                   break;
             }
                   
                   
-            case '4':{
+            case SAMPLE_1000:{
                   samplingRate = 1000;
                   cout<<"Sampling rate: 1 000"<<endl;
                   break;
             }
                   
-            case '5':{
+            case SAMPLE_10:{
                   samplingRate = 10;
                   cout<<"Sampling rate: 10"<<endl;
                   break;
