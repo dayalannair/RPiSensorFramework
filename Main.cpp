@@ -17,7 +17,7 @@ Date: January 2021
 #include <stdio.h>
 #include <stdlib.h>
 #define BASE 100
-#define SPI_CHAN 0
+#define SPI_CHAN 1
 //--------------------------------------------------------
 
 
@@ -239,21 +239,17 @@ int main(){
     control.recv_sd_handler(0, control_d_handler);
     control.recv_sd(data_size+3);
     cout<<"View data using the user interface below."<<endl;
-    sensor.closeGPIO();
+    
 
     cout<<"================= Sensor data polling test ======================="<<endl;
     int setup = wiringPiSetup();
     mcp3004Setup(BASE, SPI_CHAN); // 3004 and 3008 are the same 4/8 channels
     int x;
     char in = '1';
-    for (int chan = 0 ; chan < 8 ; ++chan){
-        x = analogRead (BASE + chan);
-        cout<<x<<endl;
-    }
     
     while (setup != -1 && in != 'q'/*sensor.isOn()*/){
-        sleep(5);
-        cout<<"Polling now. (5 seconds elapsed). Enter 'q' to stop or any key to continue."<<endl;
+
+        cout<<"Polling now (time between polls = 3s). Enter 'q' to stop or any key to continue."<<endl;
         cin>>in;
 
         cout<<"Channel readings: "<<endl;
@@ -261,6 +257,7 @@ int main(){
             x = analogRead (BASE + chan);
             cout<<x<<endl;
         }
+        sleep(3);
     }
     
 

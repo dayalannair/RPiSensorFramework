@@ -109,25 +109,6 @@ void Control::saveData(int sensorID,BYTE* time, BYTE* data,  unsigned int sz){
 
 }
 
-//display data from the repo connected to the control node. Could be improved
-// int Control::getData(int samples, int sid)
-// { //samples is the number of samples requested, sid is the id of the sensor which produced the samples
-//     //loop through entire array (not the most elegant soln). need to handle error if fewer samples in array and therefore if end of array reached before samplesFound == samples
-//     int samplesFound = 0;
-//     for (int i = 0, i < samplesFound, i++)
-//     {
-//         if (SensorData[i].getID == sid)
-//         {
-//             cout << SensorData[i].toString(); //display sensor data
-//             samplesFound++;                   //increment no. samples found
-//             if (samplesFound == samples)
-//             { //exit loop if required samples have been displayed
-//                 break;
-//             }
-//         }
-//     }
-// }
-
 void Control::displayBridges(){
     cout<<"----------------------Display Bridge IDs----------------------------"<<endl;
     for (int i = 0; i < numBridges; i++){
@@ -159,20 +140,27 @@ void Control::inputHandler(BYTE cmd)
     }
         
     case '3':{
-        int sRate;
+        //sample rate from 3 options
+        char sRate;
+        //bridge ID of the bridge to which the sensor belongs
+        int bid;
+        //sensor ID of sensor for which sampling rate will be changed
+        int sid;
         cout << "Select desired sampling rate: "<<endl<<"3 - 10 000"<<endl<<"4 - 1 000"<<endl<<"5 - 10"<<endl;
         cin >> sRate;
-        if (sRate == SAMPLE_10000){
+        cout<<"Bridge ID: "<<endl;
+        cin >> bid;
+        cout<<"Sensor ID: "<<endl;
+        cin >> sid;
 
-            
+        if (sRate == SAMPLE_10000){
+            command(SAMPLE_10000, bid, sid);
         }
         else if (sRate == SAMPLE_1000){
-
-
+            command(SAMPLE_1000, bid, sid);
         }
         else if (sRate == SAMPLE_10){
-
-
+            command(SAMPLE_10, bid, sid);
         }
         else{
             cout<<"Invalid selection."<<endl;
@@ -206,7 +194,7 @@ void Control::inputHandler(BYTE cmd)
     }
     
     default:
-        cout << "Invalid input";
+        cout << "Invalid input"<<endl;
     }
 }
 //================================== Main function ==================================
