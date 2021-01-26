@@ -1,13 +1,15 @@
-/*
-Author: Dayalan Nair
-Date: January 2021
-
+/************************************************************************************
+Control.hpp
 Control Node class
 
-This class provides an interface for the user to communicate with the sensors within the framework and to view recorded data.
+This class provides an interface for the user to communicate with the sensors within 
+the framework and to view recorded data.
+
 Attached bridges will be daisy-chained.
 
-*/
+Author: Dayalan Nair
+Date: January 2021
+********************************************************************************/
 #ifndef CONTROL_H
 #define CONTROL_H
 

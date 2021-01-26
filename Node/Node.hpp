@@ -1,13 +1,14 @@
-/*
-Author: Dayalan Nair
-Date: January 2021
-
+/***********************************************************************************
+Node.hpp
 Node class
 
-This class defines all the neccesary functions and variables that will be used by any type of node in the framework. This includes buffers and functions for receiving
+This class defines all the neccesary functions and variables that will be used by 
+any type of node in the framework. This includes buffers and functions for receiving
 and sending data and commands.
 
-*/
+Author: Dayalan Nair
+Date: January 2021
+*********************************************************************************/
 #ifndef NODE_H
 #define NODE_H
 

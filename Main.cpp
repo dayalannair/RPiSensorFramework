@@ -242,21 +242,24 @@ int main(){
     sensor.closeGPIO();
 
     cout<<"================= Sensor data polling test ======================="<<endl;
-    wiringPiSetup();
+    int setup = wiringPiSetup();
     mcp3004Setup(BASE, SPI_CHAN); // 3004 and 3008 are the same 4/8 channels
     int x;
+    char in = '1';
     for (int chan = 0 ; chan < 8 ; ++chan){
         x = analogRead (BASE + chan);
         cout<<x<<endl;
     }
     
-    while (true == 1/*sensor.isOn()*/){
+    while (setup != -1 && in != 'q'/*sensor.isOn()*/){
         sleep(5);
-        cout<<"Polling now. (5 seconds elapsed)"<<endl;
-        //CONTINUE HERE
+        cout<<"Polling now. (5 seconds elapsed). Enter 'q' to stop or any key to continue."<<endl;
+        cin>>in;
+
+        cout<<"Channel readings: "<<endl;
         for (int chan = 0 ; chan < 8 ; ++chan){
             x = analogRead (BASE + chan);
-        cout<<x<<endl;
+            cout<<x<<endl;
         }
     }
     
