@@ -80,3 +80,24 @@ No target ID is needed, as the only target for a data packet (denoted by 'd') is
 
 Data packets are converted into data objects, which are stored in an array in the Control node program. This array can either be written to permanent storage or uploaded to cloud storage, depending on the user's needs. The data object contains a function for displaying the specific sample, made up of the source sensor node ID, the time at which the sample was recorded and the data sample itself. The data class can be modified to meet developer's needs. 
 
+class Data
+{
+protected:
+    //ID of sensor from which data was received
+    int sensorID;
+    //time at which sample was received by the control node
+    BYTE* time; //may need string
+    //the data (possibly formatted) corresponding to the sample.
+    BYTE dataSample[64];
+    //size of sample stored in data array
+    int size;
+
+public:
+    //Constructor
+    Data(int ID, BYTE* t, BYTE* sample, unsigned int sz);
+    string toString();
+    //returns the ID of the sensor that recorded the sample.
+    int getID();
+    //displays a particular sample
+    void printSample();
+};
