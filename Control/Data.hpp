@@ -32,11 +32,9 @@ protected:
 public:
     //Contructor
     Data(int ID, BYTE* t, BYTE* sample, unsigned int sz);
-    //displays a particular sample
-    string toString();
     //returns the ID of the sensor that recorded the sample.
     int getID();
-
+    //displays a particular sample
     void printSample();
 };
 #endif
