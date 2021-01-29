@@ -1,8 +1,14 @@
 /*
+Raspberry Pi Sensor Framework
+
+Main.cpp
 Example program
 
 This tests each type of node and their respective functions.
-Uses SPI for communication and an MCP3008 ADC for reading data
+Uses SPI for communication and an MCP3008 ADC for reading data.
+The developer can take ideas from this file, or modify it to suit his/her needs.
+
+See README.md for further details about this program.
 
 Author: Dayalan Nair
 Date: January 2021
